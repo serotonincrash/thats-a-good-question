@@ -72,15 +72,6 @@
             }
         })
 
-        fetch("/api/auth/userInfo").then((res) => {
-            if (res.status === 200) {
-                res.json().then((data) => {
-                    $("#username").val(data.username);
-                    $("#email").val(data.email);
-                })
-            }
-        })
-
         fetch("/api/auth/userPersonalInfo").then((res) => {
             if (res.status === 200) {
                 res.json().then((data) => {
@@ -98,7 +89,7 @@
     $("#editInfoForm").submit((e) => {
         e.preventDefault();
         const formData = new FormData(document.querySelector('#editInfoForm'));
-        fetch('/api/auth/editInfo/', {
+        fetch('/api/auth/updateInfo/', {
             method: "PUT",
             body: formData
         }).then((res) => {
@@ -116,7 +107,7 @@
     $("#editPersonalInfoForm").submit((e) => {
         e.preventDefault();
         const formData = new FormData(document.querySelector('#editPersonalInfoForm'));
-        fetch('/api/auth/editPersonalInfo/', {
+        fetch('/api/auth/updatePersonalInfo/', {
             method: "PUT",
             body: formData
         }).then((res) => {
