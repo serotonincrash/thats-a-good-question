@@ -1,7 +1,7 @@
 <?php
-include 'connect.php';
+require_once('../../config.php');
 
-$review_id=$_GET['updateid'];//for update button in display.php
+$review_id=$_GET['review_id'];//for update button in display.php
 
 
 //this is to view specific review_id in update.php so that users don't forget what they write 
@@ -17,13 +17,13 @@ if(isset($_POST['submit'])){
     $rating=$_POST['rating'];
 
     
-    $sql="UPDATE `reviews` set review_id='$review_id', body='$body', rating='$rating' WHERE review_id='$review_id'"; 
+    $sql="UPDATE `reviews` set body='$body', rating='$rating' WHERE review_id='$review_id'"; 
     //WHERE query to prevent duplicate entry for primary key - "review_id"   
 
     $result=mysqli_query($con,$sql);
     if($result){
         echo "Data updated successfully";
-        header('location:/app/reviews/'); //after create will redirect to display.php
+        header('location:/app/reviews/'); //after create will redirect
     }else{
         die(mysqli_error($con));
     }

@@ -17,13 +17,13 @@
     <div class="container my-5">
         <form action = '/api/reviews/create/' method="post">
             <div class="form-group">
-                <label>Review</label>
+                <input type="number" class="form-control" 
+                placeholder="Order ID" name="order_id" autocomplete="off">
+
                 <input type="text" class="form-control" 
                 placeholder="Enter your review" name="body" autocomplete="off">
             </div>
-            <div class="container">
             <div class="form-group">
-                <label>Stars</label>
                 <input type="text" class="form-control" 
                 placeholder="Give some stars from 1-5" name="rating" autocomplete="off">
             </div>

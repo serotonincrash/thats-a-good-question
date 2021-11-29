@@ -1,5 +1,3 @@
-<html>
-<body>
 
 <?php
 require_once('../../config.php');
@@ -24,6 +22,3 @@ if ($query->execute()){ //execute query
     echo "Error executing query.";
 }
 ?>
-
-</body>
-</html>

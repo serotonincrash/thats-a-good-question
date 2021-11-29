@@ -43,8 +43,8 @@
                         <td>' . $body . '</td>
                         <td>' . $rating . '</td>
                         <td>
-                        <button class="btn btn-primary"><a href="update/?updateid=' . $review_id . '" class="text-light" >Update</a></button>
-                        <button class="btn btn-danger"><a href="delete/?deleteid=' . $review_id . '" class="text-light">Delete</a></button>
+                        <button class="btn btn-primary"><a href="update/?update_id=' . $review_id . '" class="text-light" >Update</a></button>
+                        <button class="btn btn-danger"><a href="/api/reviews/delete/?delete_id=' . $review_id . '" class="text-light">Delete</a></button>
                     </td>
                     </tr>';
                     }
