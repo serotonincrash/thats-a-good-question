@@ -17,6 +17,7 @@ if(isset($_POST['part_id']) && isset($_POST['editForm'])){
       stock = ".$stock.
       " WHERE part_id = ".$part_id;
   if($con->query($sql) === TRUE){
+    header("Location: /app/inventory/");
     echo "from edit page";
   }else{
     echo "failed";

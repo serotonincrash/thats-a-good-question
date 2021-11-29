@@ -12,6 +12,7 @@ $stock = $_REQUEST['stock'];
 
 $sql = "INSERT INTO tagq.inventory(part_name,sku,stock) VALUES ('$part_name', '$sku', '$stock')";
 if(mysqli_query($con, $sql)){
+  header("Location: /app/inventory/");
   echo "<h3>Data stored in database successfully</h3>";
 } 
 else {

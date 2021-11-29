@@ -7,7 +7,7 @@ $item_id = $_REQUEST["item_id"];
 $query->bind_param('i', $item_id); //bind the parameters
 
 if ($query->execute()){
-    header("Location: /");
+    header("Location: /app/listings/");
     die();
 }else{
     echo "Error executing query.";

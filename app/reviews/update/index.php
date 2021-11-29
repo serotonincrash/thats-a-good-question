@@ -30,7 +30,7 @@ $rating=$row['rating'];
         <form action = '/api/reviews/update/?review_id=<?php echo $review_id ?>' method="post">
             <div class="form-group">
                 <label>Review</label>
-                <input type="text" id='reviewBody' class="form-control" value=<?php echo $body ?>
+                <input type="text" id='reviewBody' class="form-control" value="<?php echo $body ?>"
                 placeholder="Enter your review" name="body" autocomplete="off">
             </div>
             <div class="container">

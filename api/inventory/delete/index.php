@@ -10,6 +10,7 @@ if(isset($_GET['part_id'])){
   $sql = "DELETE FROM tagq.inventory WHERE part_id = $id";
 
   if($con->query($sql) == true){
+    header("Location: /app/inventory/");
     echo "Data deleted";
   }else{
     echo "something went wrong";

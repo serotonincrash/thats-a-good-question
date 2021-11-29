@@ -16,7 +16,7 @@ $vendor_id = $_SESSION["user_id"];
 $query->bind_param('ssssii', $item_name, $description, $materials, $metadata, $price, $vendor_id); //bind the parameters
 
 if ($query->execute()){ //execute query
-    header("Location: /");
+    header("Location: /app/listings/");
     die();
 }else{
     echo "Error executing query.";

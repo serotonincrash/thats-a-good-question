@@ -11,7 +11,7 @@ $price = $_REQUEST["price"];
 
 $query->bind_param('ssssii', $name, $description, $materials, $metadata, $price, $item_id); //bind the parameters
 if ($query->execute()){
-    header("Location: /");
+    header("Location: /app/listings/");
     die();
 }else{
     echo "Error executing query.";
