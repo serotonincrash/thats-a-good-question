@@ -1,23 +1,50 @@
 <html>
+
 <body>
-<?php
-$con = mysqli_connect("localhost","root","","tagq"); //connect to database
-if (!$con){
-die('Could not connect: ' . mysqli_connect_errno()); //return error is connect fail
-}
+  <?php
+  require_once("../../config.php");
 
-$part_name = $_REQUEST['part_name'];
-$sku = $_REQUEST['sku'];
-$stock = $_REQUEST['stock'];
+  session_start();
+  if ($_SERVER['REQUEST_METHOD'] !== "POST") {
+    http_response_code(405);
+    die();
+  }
+  if (count($_SESSION) === 0) {
+    http_response_code(401);
+    die("You need to be logged in to do that!");
+  }
+  if ($_SESSION['role'] !== 'Vendor') {
+    http_response_code(403);
+    die("You're not allowed to access this!");
+  }
 
-$sql = "INSERT INTO tagq.inventory(part_name,sku,stock) VALUES ('$part_name', '$sku', '$stock')";
-if(mysqli_query($con, $sql)){
-  header("Location: /app/inventory/");
-  echo "<h3>Data stored in database successfully</h3>";
-} 
-else {
-  echo "ERROR!" . mysqli_error($con);
-}
-?>
+  // Validate data
+
+  if (!$_POST || !$_POST['partName'] || !$_POST['sku'] || !$_POST['stock']) {
+    http_response_code(400);
+    die("One or more parameters are not present!");
+  }
+
+  $part_name = $_POST['partName'];
+  $sku = $_POST['sku'];
+  $stock = $_POST['stock'];
+
+  if (strval($stock) !== strval(intval($stock))) {
+    // stock not defined or not an int
+    http_response_code(400);
+    die("Stock is not a number!");
+  }
+
+  $createStatement = $con->prepare("INSERT INTO tagq.inventory(part_name, sku, stock) VALUES (?,?,?)");
+  $createStatement->bind_param("ssi", $part_name, $sku, $stock);
+  $createStatement->execute();
+  if ($err = $createStatement->errno) {
+    http_response_code(500);
+    die("An error occured whilst sending the query to the database.");
+  } else {
+    echo "Item created successfully!";
+  }
+  ?>
 </body>
+
 </html>

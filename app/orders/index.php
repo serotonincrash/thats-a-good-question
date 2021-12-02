@@ -62,10 +62,48 @@
 
 
         ?>
+
+
         <a class='btn btn-primary' href="create/">Create an Order</a>
         <a class='btn btn-primary' href="update/">Update an Order</a>
         <a class='btn btn-danger' href="delete/">Delete an Order</a>
+
+        <div>
+        <h1>Items Available</h1>
+        <table border="3">
+            <tr>
+                <td>Item ID</td>
+                <td>Product Name</td>
+                <td>Description</td>
+                <td>Materials</td>
+                <td>Metadata</td>
+                <td>Unit Price</td>
+                <td>Vendor ID</td>
+            </tr>
+            <?php
+            $records = mysqli_query($con, "select * FROM items"); // fetch data from database
+
+            while ($data = mysqli_fetch_array($records)) {
+            ?>
+                <tr>
+                    <td><?php echo $data['item_id']; ?></td>
+                    <td><?php echo $data['name']; ?></td>
+                    <td><?php echo $data['description']; ?></td>
+                    <td><?php echo $data['materials']; ?></td>
+                    <td><?php echo $data['metadata']; ?></td>
+                    <td><?php echo $data['price']; ?></td>
+                    <td><?php echo $data['vendor_id']; ?></td>
+                </tr>
+            
+            <?php
+            }
+            ?>
+        </table>
+        </center>
     </div>
+    </div>
+
+    
 
 
 </body>

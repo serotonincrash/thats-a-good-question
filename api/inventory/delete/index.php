@@ -1,23 +1,44 @@
 <html>
-<body>
-<?php
-$con = mysqli_connect("localhost","root","","tagq");
-if (!$con){
-die('Could not connect: ' . mysqli_connect_errno()); 
-}
-if(isset($_GET['part_id'])){
-  $id = $_GET['part_id'];
-  $sql = "DELETE FROM tagq.inventory WHERE part_id = $id";
 
-  if($con->query($sql) == true){
-    header("Location: /app/inventory/");
-    echo "Data deleted";
-  }else{
-    echo "something went wrong";
+<body>
+  <?php
+  require_once("../../config.php");
+
+  session_start();
+  if ($_SERVER['REQUEST_METHOD'] !== "DELETE") {
+    http_response_code(405);
+    die();
   }
-}else{
-  die('id not provided');
-}
-?>
+  if (count($_SESSION) === 0) {
+    http_response_code(401);
+    die("You need to be logged in to do that!");
+  }
+  if ($_SESSION['role'] !== 'Admin') {
+    // No one can delete except Admin
+    http_response_code(403);
+    die("You're not allowed to access this!");
+  }
+  if (!$_GET['part_id'] || (strval($_GET['part_id']) !== strval(intval($_GET['part_id'])))) {
+    // part_id not defined or not an int
+    http_response_code(400);
+    die("Your item ID is incorrect!");
+  }
+
+  // Validate data
+
+    $id = $_GET['part_id'];
+    $deleteStatement = $con->prepare("DELETE FROM tagq.inventory WHERE part_id = ?");
+    $deleteStatement->bind_param("i", $id);
+    $deleteStatement->execute();
+    if ($err = $deleteStatement->errno) {
+      http_response_code(500);
+        
+      die("An error occured whilst sending the query to the database.");
+    } else {
+      echo "Item deleted successfully.";
+    }
+
+  ?>
 </body>
+
 </html>

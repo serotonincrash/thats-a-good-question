@@ -5,6 +5,23 @@
       padding-right: 16px;
     }
   </style>
+  <script type='module'>
+    fetch("/api/auth/user/").then( (response) => {
+          if (response.status === 200) {
+              response.json().then((res) => {
+                  $("#profile").text(`Hello ${res.session.username}!`).attr("href", '/app/profile/');
+                  $("#signup").hide();
+  
+                  if (res.session.role === "Vendor") {
+                    $("#inventory").toggle();
+                  } else if (res.session.role === "User") {
+                    $("#reviews").toggle();
+                  }
+              })
+          }
+    })
+    
+  </script>
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -15,13 +32,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" id = 'home' href="#">Home</a>
+          <a class="nav-link" id = 'home' href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id = 'inventory' href="/app/inventory/">Inventory</a>
+          <a class="nav-link" style='display:none;' id = 'inventory' href="/app/inventory/">Inventory</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id = 'reviews' href="/app/reviews/">Reviews</a>
+          <a class="nav-link" style='display:none;' id = 'reviews' href="/app/reviews/">Reviews</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" id = 'orders' href="/app/orders/">Orders</a>
@@ -41,13 +58,3 @@
     </div>
 </nav>
 
-<script>
-  fetch("/api/auth/user/").then( (response) => {
-        if (response.status === 200) {
-            response.json().then((res) => {
-                $("#profile").text(`Hello ${res.session.username}!`).attr("href", '/app/profile/');
-                $("#signup").hide();
-            })
-        }
-    })
-</script>
