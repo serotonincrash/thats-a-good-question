@@ -32,6 +32,9 @@
         die("Your password isn't secure enough! It should be more than 8 characters long and contain letters, and at least one number and special character.");
     }
 
+    // TODO EMAIL verification
+
+    
     // Role check. No role other than user and vendor should be allowed
     if (!($role === "User" || $role === "Vendor")) {
         http_response_code(400);
@@ -92,3 +95,4 @@
         $_SESSION['user_id'] = $userID;
         $_SESSION['role'] = $role;
     }
+?>
