@@ -53,10 +53,9 @@
                             <td class='px-2 py-2' >${part.part_name}</td>
                             <td class='px-2 py-2'>${part.sku}</td>
                             <td class='px-2 py-2'>${part.stock}</td>
-                            <td class='px-2 py-2'><a class='btn btn-primary mx-2' href=update/?partID=${part.part_id}>Edit</a>`
-                            `<a onclick='deleteHandler(${part.part_id})' class='mx-2 btn btn-danger'>Delete</a></td>
+                            <td class='px-2 py-2'><a class='btn btn-primary mx-2' href=update/?partID=${part.part_id}>Edit</a><a onclick='deleteHandler(${part.part_id})' class='mx-2 btn btn-danger'>Delete</a></td>
                             </tr>`
-                            
+
                         }
                         $('#inventoryTable tbody').html(entry);
                     } else {
