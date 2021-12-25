@@ -15,7 +15,7 @@
 <body>
     <div id='navbar'></div>
     <div class='container'>
-        <form id='login'>
+        <form id='login' onsubmit="">
             <input name='username' type="text" placeholder="Email/Username">
             <input name='password' type="password" placeholder="Password">
             <input type='submit'>
@@ -27,27 +27,25 @@
 </html>
 
 
-<script>
+<script type='module'>
     toastr.options = {
         "closeButton": false,
         "positionClass": "toast-bottom-center",
         "preventDuplicates": true
     }
-    $("#login").submit((e) => {
+    $("#login").submit(async (e) => {
         e.preventDefault();
         const formData = new FormData(document.querySelector('#login'));
-        fetch('/api/auth/login/', {
+        let res = await fetch('/api/auth/login/', {
             method: "POST",
             body: formData
-        }).then((res) => {
-            if (res.status === 200) {
-                toastr.success("Logged in successfully!", "Success");
-                window.location.href = "/";
-            } else if (res.status === 401) {
-                res.text().then((text) => {
-                    toastr.error(text, "Error");
-                })
-            }
         })
+        if (res.status === 200) {
+            toastr.success("Logged in successfully!", "Success");
+            window.location.href = "/";
+        } else if (res.status === 401) {
+            let error = await res.text();
+            toastr.error(error, "Eror");
+        }
     })
 </script>

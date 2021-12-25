@@ -40,6 +40,9 @@
   $createStatement->execute();
   if ($err = $createStatement->errno) {
     http_response_code(500);
+    if ($err == 1062) {
+      die("An item with that name already exists!");
+    }
     die("An error occured whilst sending the query to the database.");
   } else {
     echo "Item created successfully!";

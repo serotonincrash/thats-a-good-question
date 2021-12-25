@@ -50,78 +50,76 @@
 </html>
 
 
-<script>
-
-    $(() => {
+<script type='module'>
+    toastr.options = {
+        "closeButton": false,
+        "positionClass": "toast-bottom-center",
+        "preventDuplicates": true
+    }
+    try {
         // Get user role, hide personal info form if necesscary
-        fetch("/api/auth/user/").then((res) => {
-            if (res.status === 200) {
-                res.json().then((data) => {
-                    if (data.session.role === "User") {
-                        $("#personalInfoSection").show();
-                    }
-                })
+        let res = await fetch("/api/auth/user/");
+        if (res.status === 200) {
+            let data = await res.json();
+            if (data.session.role === "User") {
+                $("#personalInfoSection").show();
             }
-        })
 
-        fetch("/api/auth/userInfo").then((res) => {
-            if (res.status === 200) {
-                res.json().then((data) => {
-                    $("#username").val(data.username);
-                    $("#email").val(data.email);
-                })
-            }
-        })
+        }
 
-        fetch("/api/auth/userPersonalInfo").then((res) => {
-            if (res.status === 200) {
-                res.json().then((data) => {
-                    $("#firstName").val(data.first_name);
-                    $("#lastName").val(data.last_name);
-                    $("#address").val(data.address);
-                    $("#postalCode").val(data.postal_code);
-                    $("#phoneNumber").val(data.phone_number);
-                })
-            }
-        })
+        res = await fetch("/api/auth/userInfo");
+        if (res.status === 200) {
+            let data = await res.json();
+            $("#username").val(data.username);
+            $("#email").val(data.email);
+            console.log(data);
+        }
 
-    })
 
-    $("#editInfoForm").submit((e) => {
+        res = await fetch("/api/auth/userPersonalInfo");
+        if (res.status === 200) {
+            let data = await res.json();
+            $("#firstName").val(data.first_name);
+            $("#lastName").val(data.last_name);
+            $("#address").val(data.address);
+            $("#postalCode").val(data.postal_code);
+            $("#phoneNumber").val(data.phone_number);
+        }
+    } catch (error) {
+        toastr.error(error, "Error");
+    }
+
+
+
+    $("#editInfoForm").submit(async (e) => {
         e.preventDefault();
         const formData = new FormData(document.querySelector('#editInfoForm'));
-        fetch('/api/auth/updateInfo/', {
+        let res = await fetch('/api/auth/updateInfo/', {
             method: "PUT",
             body: formData
-        }).then((res) => {
-            if (res.status === 200) {
-                $("#userInfoResult").removeClass().addClass("alert alert-success").text("User updated successfully.");
-                window.location.href = "/";
-            } else {
-                res.text().then((text) => {
-                    $("#userInfoResult").removeClass().addClass("alert alert-danger").text(text);
-                })
-            }
         })
+        if (res.status === 200) {
+            window.location.href = "/";
+        } else {
+            let error = await res.text()
+            toastr.error(error, "Error");
+        }
+
     })
 
-    $("#editPersonalInfoForm").submit((e) => {
+    $("#editPersonalInfoForm").submit(async (e) => {
         e.preventDefault();
         const formData = new FormData(document.querySelector('#editPersonalInfoForm'));
-        fetch('/api/auth/updatePersonalInfo/', {
+        let res = await fetch('/api/auth/updatePersonalInfo/', {
             method: "PUT",
             body: formData
-        }).then((res) => {
-            if (res.status === 200) {
-                $("#personalInfoResult").removeClass().addClass("alert alert-success").text("User updated successfully.");
-                window.location.reload();
-            } else {
-                res.text().then((text) => {
-                    // show error
-                    $("#personalInfoResult").removeClass().addClass("alert alert-danger").text(text);
-                })
-            }
         })
+        if (res.status === 200) {
+            window.location.href = "/";
+        } else {
+            let error = await res.text();
+            toastr.error(error, "Error");
+        }
     })
 
 </script>

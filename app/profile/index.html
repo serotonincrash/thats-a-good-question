@@ -1,53 +1,69 @@
 <html>
-    <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
-        <script defer src="/static/js/navbar.js"></script>
-    </head>
-    <body>
-        <div id='navbar'></div>
-        <div class='container-fluid'>
-            <div id='buttons'>
-                <div class ='me-auto'>
-                    <a href='/app/profile/update/' class='btn btn-primary' id='editButton'>Edit profile</a>
-                    <button type='button' class='btn btn-danger' id='deleteButton'>Delete </a>
-                </div>
-                <div class='ms-auto'>
-                    <button type='button' class='btn btn-danger' id='logoutButton'>Log out</button>
-                </div>
-            </div>
-            
-            
 
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
+    <script defer src="/static/js/navbar.js"></script>
+</head>
+
+<body>
+    <div id='navbar'></div>
+    <div class='container-fluid'>
+        <h1 id='title'>Hello!</h1>
+        <div id='buttons'>
+            <div class='me-auto'>
+                <a href='/app/profile/update/' class='btn btn-primary' id='editButton'>Edit profile</a>
+                <button type='button' class='btn btn-danger' id='deleteButton'>Delete </a>
+            </div>
+            <div class='ms-auto'>
+                <button type='button' class='btn btn-danger' id='logoutButton'>Log out</button>
+            </div>
         </div>
-        
-    </body>
+
+
+
+    </div>
+
+</body>
+
 </html>
 
-<script>
-    $("#logoutButton").click((e) => {
-        fetch('/api/auth/logout').then((res) => {
-            if (res.status === 200) {
-                window.location = '/'
-            } else if (res.status === 401) {
-                // user was not logged in
-                window.location = '/app/login/'
-            }
-        })
+<script type='module'>
+    // Get user role, hide personal info form if necesscary
+    let res = await fetch("/api/auth/user/");
+    if (res.status === 200) {
+        let data = await res.json();
+        $("#title").text(`Hello ${data.session.username}!`)
+    } else {
+        // user was not logged in
+        window.location = '/app/login/'
+    }
+
+
+    $("#logoutButton").click(async (e) => {
+        let res = await fetch('/api/auth/logout');
+        if (res.status === 200) {
+            window.location = '/'
+        } else {
+            // user was not logged in
+            window.location = '/app/login/'
+        }
     })
 
-    $("#deleteButton").click((e) => {
+    $("#deleteButton").click(async (e) => {
         if (confirm("Are you sure you want to delete your account?")) {
-            fetch('/api/auth/delete', {method: "DELETE"}).then((res) => {
+            let res = await fetch('/api/auth/delete', { method: "DELETE" })
             if (res.status === 200) {
                 window.location = '/'
             } else if (res.status === 401) {
                 // user was not logged in
                 window.location = '/app/login/'
             }
-        })
         }
     })
 </script>
