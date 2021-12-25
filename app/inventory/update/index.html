@@ -38,7 +38,8 @@
     </div>
   </div>
 </body>
-<script>
+
+<script type='module'>
   toastr.options = {
     "closeButton": false,
     "positionClass": "toast-bottom-center",
@@ -49,40 +50,34 @@
     toastr.error("Part ID not specified! Please go back to the inventory page!", "Error");
   }
   let partID = searchParams.get("partID");
-  $(() => {
-    fetch(`/api/inventory/item/?partID=${partID}`).then((res) => {
-      if (res.status === 200) {
-        res.json().then((item) => {
-          console.log(item)
-          $("#partName").val(item.part_name);
-          $("#sku").val(item.sku);
-          $("#stock").val(item.stock);
-        })
-      } else {
-        res.text().then((err) => {
-          toastr.error(err, "Error");
-        })
-      }
-    })
-  })
+  let res = await fetch(`/api/inventory/item/?partID=${partID}`)
+  if (res.status === 200) {
+    let item = await res.json()
+    console.log(item)
+    $("#partName").val(item.part_name);
+    $("#sku").val(item.sku);
+    $("#stock").val(item.stock);
+  } else {
+    let err = res.text()
+    toastr.error(err, "Error");
+  }
 
-  $('#updateForm').submit((e) => {
+
+  $('#updateForm').submit(async (e) => {
     e.preventDefault();
     const formData = new FormData(document.querySelector('#updateForm'));
 
     formData.append("partID", partID);
-    fetch("/api/inventory/update", {
+    let res = await fetch("/api/inventory/update", {
       method: "PUT",
-      body:formData
-    }).then((res) => {
-      if (res.status !== 200) {
-        res.text().then((err) => {
-          toastr.error(err, "Error");
-        })
-      } else {
-        window.location = "/app/inventory";
-      }
-    })
+      body: formData
+    });
+    if (res.status !== 200) {
+      let err = await res.text()
+      toastr.error(err, "Error");
+    } else {
+      window.location = "/app/inventory";
+    }
   })
 </script>
 

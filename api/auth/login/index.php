@@ -14,7 +14,7 @@
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $userStatement = mysqli_prepare($con, "SELECT user_id, username, password, role FROM tagq.users WHERE username = ? OR email = ?");
+    $userStatement = mysqli_prepare($con, "SELECT user_id, email, username, password, role FROM tagq.users WHERE username = ? OR email = ?");
 
     $userStatement->bind_param("ss", $username, $username);
 
@@ -28,9 +28,9 @@
             $user = $result->fetch_array(MYSQLI_ASSOC);
             if (password_verify($password, $user['password'])) {
                 echo "Logged in!";
-                
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['user_id'] = $user['user_id'];
+                $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role'];
                 
             } else {

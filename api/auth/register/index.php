@@ -86,6 +86,7 @@
         session_start();
         $_SESSION['username'] = $username;
         $_SESSION['user_id'] = $userID;
+        $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
     } else {
         echo "Vendor account created succesfully.";
@@ -93,6 +94,7 @@
         session_start();
         $_SESSION['username'] = $username;
         $_SESSION['user_id'] = $userID;
+        $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
     }
 ?>

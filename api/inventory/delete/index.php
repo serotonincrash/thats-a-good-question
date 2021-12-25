@@ -16,15 +16,13 @@
   if ($_SESSION['role'] !== 'Admin') {
     // No one can delete except Admin
     http_response_code(403);
-    die("You're not allowed to access this!");
+    die($_SESSION['role']);
   }
   if (!$_GET['part_id'] || (strval($_GET['part_id']) !== strval(intval($_GET['part_id'])))) {
     // part_id not defined or not an int
     http_response_code(400);
     die("Your item ID is incorrect!");
   }
-
-  // Validate data
 
     $id = $_GET['part_id'];
     $deleteStatement = $con->prepare("DELETE FROM tagq.inventory WHERE part_id = ?");

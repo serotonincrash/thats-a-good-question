@@ -14,8 +14,8 @@
 
 <body>
     <div id='navbar'></div>
-    <div class='container-fluid '>
-        <h1 class ='my-2'>Create Inventory Item</h1>
+    <div class='container-fluid'>
+        <h1 class='my-2'>Create Inventory Item</h1>
         <form id='createForm'>
             <p>
                 <label for="partName">Part Name:</label>
@@ -29,34 +29,34 @@
                 <label for="stock">Stock:</label>
                 <input type="number" name="stock" id="stock" min="1" max="99999">
             </p>
-            <input class = 'btn btn-primary' type="submit" value="Submit">
+            <input class='btn btn-primary' type="submit" value="Submit">
         </form>
     </div>
 
 </body>
 
-<script>
+<script type='module'>
     toastr.options = {
         "closeButton": false,
         "positionClass": "toast-bottom-center",
         "preventDuplicates": true
     }
 
-    $("#createForm").submit((e) => {
+    $("#createForm").submit(async (e) => {
         e.preventDefault();
 
         let formData = new FormData(document.querySelector("#createForm"))
-        fetch("/api/inventory/create/", {
+        let res = await fetch("/api/inventory/create/", {
             method: "POST",
-            body:formData
-        }).then( (res) => {
-            if (res.status === 200) {
-                // Creation successful
-                window.location = "/app/inventory"
-            } else {
-                res.text().then((err) => toastr.error(err, "Error"));
-            }
+            body: formData
         })
+        if (res.status === 200) {
+            // Creation successful
+            window.location = "/app/inventory";
+        } else {
+            let err = await res.text();
+            toastr.error(err, "Error");
+        }
     })
 </script>
 
