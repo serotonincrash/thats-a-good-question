@@ -40,15 +40,14 @@
             "positionClass": "toast-bottom-center",
             "preventDuplicates": true
         }
-        let res = await fetch("/api/auth/user");
-        let admin = false;
-        if (res.status === 200) {
-            let data = await res.json();
-            admin = data.role === "Admin" ? false : true;
-
+        let role = localStorage.getItem("role");
+        if (!role) {
+            window.location = "/app/login/"
         }
+        
+        let admin = role === "Admin" ? false : true;
 
-        res = await fetch('/api/inventory/');
+        let res = await fetch('/api/inventory/');
         if (res.status === 200) {
             let data = await res.json()
             toastr.success("Data retrieved successfully!", "Success");

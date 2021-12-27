@@ -6,18 +6,21 @@
     }
   </style>
   <script type='module'>
-    let response = fetch("/api/auth/user/")
-    if (response.status === 200) {
-      let data = response.json()
-        $("#profile").text(`Hello ${data.session.username}!`).attr("href", '/app/profile/');
-        $("#signup").hide();
+    let username = localStorage.getItem("username");
+    let role = localStorage.getItem("role");
 
-        if (data.session.role === "Vendor") {
-          $("#inventory").toggle();
-        } else if (data.session.role === "User") {
-          $("#reviews").toggle();
-        }
+    if (username) {
+      $("#profile").text(`Hello ${username}!`).attr("href", '/app/profile/');
+      $("#signup").hide();
     }
+
+
+    if (role === "Vendor") {
+      $("#inventory").toggle();
+    } else if (role === "User") {
+      $("#reviews").toggle();
+    }
+
 
   </script>
 </head>

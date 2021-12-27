@@ -57,19 +57,14 @@
         "preventDuplicates": true
     }
     try {
-        // Get user role, hide personal info form if necesscary
-        let res = await fetch("/api/auth/user/");
-        if (res.status === 200) {
-            let data = await res.json();
-            $("#username").val(data.session.username);
-            $("#email").val(data.session.email);
-            if (data.session.role === "User") {
+
+            $("#username").val(localStorage.getItem("username"));
+            $("#email").val(localStorage.getItem("email"));
+            if (localStorage.getItem("role") === "User") {
                 $("#personalInfoSection").show();
             }
 
-        }
-
-        res = await fetch("/api/auth/userPersonalInfo");
+        let res = await fetch("/api/auth/userPersonalInfo");
         if (res.status === 200) {
             let data = await res.json();
             $("#firstName").val(data.first_name);
@@ -108,6 +103,7 @@
             body: formData
         })
         if (res.status === 200) {
+            localStorage.clear();
             window.location.href = "/";
         } else {
             let error = await res.text();

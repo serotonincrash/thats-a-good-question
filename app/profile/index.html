@@ -34,20 +34,17 @@
 </html>
 
 <script type='module'>
-    // Get user role, hide personal info form if necesscary
-    let res = await fetch("/api/auth/user/");
-    if (res.status === 200) {
-        let data = await res.json();
-        $("#title").text(`Hello ${data.session.username}!`)
-    } else {
-        // user was not logged in
+    // user was not logged in
+    if (!localStorage.getItem('username')) {
         window.location = '/app/login/'
     }
+    
 
-
+    $("#title").text(`Hello ${localStorage.getItem('username')}!`)
     $("#logoutButton").click(async (e) => {
         let res = await fetch('/api/auth/logout');
         if (res.status === 200) {
+            localStorage.clear();
             window.location = '/'
         } else {
             // user was not logged in
@@ -59,6 +56,7 @@
         if (confirm("Are you sure you want to delete your account?")) {
             let res = await fetch('/api/auth/delete', { method: "DELETE" })
             if (res.status === 200) {
+                localStorage.clear();
                 window.location = '/'
             } else if (res.status === 401) {
                 // user was not logged in

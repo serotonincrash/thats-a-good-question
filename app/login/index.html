@@ -33,6 +33,7 @@
         "positionClass": "toast-bottom-center",
         "preventDuplicates": true
     }
+
     $("#login").submit(async (e) => {
         e.preventDefault();
         const formData = new FormData(document.querySelector('#login'));
@@ -41,11 +42,22 @@
             body: formData
         })
         if (res.status === 200) {
+            
+            let response = await fetch("/api/auth/user/");
+            let json = await response.json();
+            if (json) {
+                localStorage.setItem("username", json.session.username);
+                localStorage.setItem("userId", json.session.user_id);
+                localStorage.setItem("email", json.session.email);
+                localStorage.setItem("role", json.session.role);
+            } else {
+                toastr.error("An error occured. Please try logging in again.", "Error")
+            }
             toastr.success("Logged in successfully!", "Success");
             window.location.href = "/";
         } else if (res.status === 401) {
             let error = await res.text();
-            toastr.error(error, "Eror");
+            toastr.error(error, "Error");
         }
     })
 </script>
