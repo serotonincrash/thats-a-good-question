@@ -12,11 +12,12 @@
         die("One of the the fields is blank!");
     }
 
-    $email = $_POST["email"];
-    $username = $_POST["username"];
+    $email = htmlspecialchars($_POST["email"]);
+    $username = htmlspecialchars($_POST["username"]);
     $password = $_POST["password"];
     $passwordConfirm = $_POST["passwordConfirm"];
     $role = $_POST["role"];
+
 
     // Password confirm check
     if ($password !== $passwordConfirm) {
@@ -49,11 +50,12 @@
         }
 
         // Signup is for user, store personal information
-        $firstName = $_POST["firstName"];
-        $lastName = $_POST["lastName"];
-        $address = $_POST["address"];
-        $phone = $_POST["phoneNumber"];
-        $postal = $_POST["postalCode"];
+        $firstName = htmlspecialchars($_POST["firstName"]);
+        $lastName = htmlspecialchars($_POST["lastName"]);
+        $address = htmlspecialchars($_POST["address"]);
+        $phone = htmlspecialchars($_POST["phoneNumber"]);
+        $postal = htmlspecialchars($_POST["postalCode"]);
+
     }
 
     // Hash password using bcrypt 

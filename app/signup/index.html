@@ -47,7 +47,7 @@
     $("#register").submit(async (e) => {
         e.preventDefault();
         const formData = new FormData(document.querySelector('#register'));
-        let res = fetch('/api/auth/register/', {
+        let res = await fetch('/api/auth/register/', {
             method: "POST",
             body: formData
         })
@@ -65,9 +65,8 @@
             toastr.success("Logged in successfully!", "Success");
             window.location.href = "/";
         } else {
-            res.text().then((text) => {
-                toastr.error(text, "Error");
-            })
+            let text = await res.text()
+            toastr.error(text, "Error");
         }
     })
 

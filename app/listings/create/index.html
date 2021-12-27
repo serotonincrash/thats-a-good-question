@@ -11,17 +11,93 @@
 
 <body>
     <div id='navbar'></div>
-<form action="/api/listings/create/" method="post">
-Product Name: <input type="text" name="item_name"><br><br>
+    <div class='container-fluid'>
+        <form id='createListingForm' method="post">
+            <h1>Product Creation</h1>
+            <h2>Product Name:</h2>
+            <input type="text" name="item_name"><br><br>
 
-Description : <textarea name="description" rows="5" cols="40"></textarea><br><br>
+            <h2>Description:</h2> <textarea name="description" rows="5" cols="40"></textarea><br><br>
 
-Product Materials : <textarea name="materials" rows="5" cols="40"></textarea><br><br>
+            <h2>Materials Used:</h2>
+            <button type="button" id='addMatButton' class='btn btn-primary'>Add Material</button><br>
+            <div class='my-4' id='materialsUsed'></select>
+            </div>
 
-Metadata : <textarea name="metadata" rows="5" cols="40"></textarea><br><br>
+            <h2>Customisations:</h2>
+            <button type="button" id='addCustButton' class='btn btn-primary'>Add Customisation</button>
+            <br>
+            <div class='my-4' id='customisations'>
 
-Unit Price : <input type="text" name="price"><br><br>
+            </div>
 
-<input type="submit">
-</form>
+            <h2>Price:</h2>
+            <input type="number" name="price">
+            <br>
+            <br>
+            <input type="submit">
+        </form>
+    </div>
+
 </body>
+
+<script type='module'>
+    toastr.options = {
+        "closeButton": false,
+        "positionClass": "toast-bottom-center",
+        "preventDuplicates": true
+    }
+
+    // material handling
+    let matIndex = 1;
+    let res = await fetch('/api/inventory/');
+    let mats = {};
+    if (res.status === 200) {
+        mats = await res.json();
+        console.log(mats);
+    } else {
+        let error = await res.text();
+        toastr.error(error, "Error");
+    }
+
+    let matSelect = `<div class='mt-2'><label class = 'me-2' for='materials[]'>Material ${matIndex}:</label><select name='materials[]'>`;
+    for (let mat of mats) {
+        matSelect += `<option value='${mat.part_id}'>${mat.part_name}</option>`
+    }
+    matSelect += `</select></div>`
+    let matHTML = $.parseHTML(matSelect);
+    $("#materialsUsed").append(matHTML);
+
+    $("#addMatButton").click((e) => {
+        matIndex += 1;
+        let matSelect = `<div class='mt-2'><label class = 'me-2' for='materials[]'>Material ${matIndex}:</label><select name='materials[]'>`;
+        for (let mat of mats) {
+            matSelect += `<option value='${mat.part_id}'>${mat.part_name}</option>`
+        }
+        matSelect += `</select></div>`
+        let matHTML = $.parseHTML(matSelect);
+        $("#materialsUsed").append(matHTML);
+    })
+
+    // Customisations handling
+    let custIndex = 1;
+    let custSelect = `<div class='mt-2'><label class = 'me-2' for='metadata'>Customisation ${custIndex}</label><input name='metadata[]' placeholder='Customisation name'></div>`
+    let custHTML = $.parseHTML(custSelect);
+    $("#customisations").append(custHTML)
+
+    $("#addCustButton").click(() => {
+        custIndex += 1;
+        let custSelect = `<div class='mt-2'><label class = 'me-2' for='metadata'>Customisation ${custIndex}</label><input name='metadata[]' placeholder='Customisation name'><div>`
+        let custHTML = $.parseHTML(custSelect);
+        $("#customisations").append(custHTML);
+    })
+
+
+    $('#createListingForm').submit(async (e) => {
+        e.preventDefault();
+        const formData = new FormData(document.querySelector('#createListingForm'));
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+    })
+</script>

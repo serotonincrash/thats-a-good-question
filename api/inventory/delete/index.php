@@ -16,7 +16,7 @@
   if ($_SESSION['role'] !== 'Admin') {
     // No one can delete except Admin
     http_response_code(403);
-    die($_SESSION['role']);
+    die("You're not allowed to do this!");
   }
   if (!$_GET['part_id'] || (strval($_GET['part_id']) !== strval(intval($_GET['part_id'])))) {
     // part_id not defined or not an int

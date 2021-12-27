@@ -24,7 +24,7 @@
     }
 
     // apfd extension parses body into $_POST
-    $username = $_POST["username"];
+    $username = htmlspecialchars($_POST["username"]);
     $password = $_POST["password"];
     $newPassword = $_POST["newPassword"];
     $passwordConfirm = $_POST["confirmPassword"];

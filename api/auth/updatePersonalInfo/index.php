@@ -26,13 +26,14 @@
     }
 
     // Signup is for user, get personal information
-    $firstName = $_POST["firstName"];
     $password = $_POST['password'];
-    $lastName = $_POST["lastName"];
-    $address = $_POST["address"];
-    $phone = $_POST["phoneNumber"];
-    $postal = $_POST["postalCode"];
+    $firstName = htmlspecialchars($_POST["firstName"]);
+    $lastName = htmlspecialchars($_POST["lastName"]);
+    $address = htmlspecialchars($_POST["address"]);
+    $phone = htmlspecialchars($_POST["phoneNumber"]);
+    $postal = htmlspecialchars($_POST["postalCode"]);
     
+
     // Verify user before updating info
     $verifyStatement = mysqli_prepare($con, "SELECT password FROM tagq.users WHERE user_id = ?");
 
@@ -73,4 +74,3 @@
     } else {
         echo "User updated successfully.";
     }
-?>
