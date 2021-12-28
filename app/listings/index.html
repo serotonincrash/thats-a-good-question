@@ -2,8 +2,11 @@
 <html>
 
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
   <script defer src="/static/js/navbar.js"></script>
@@ -15,18 +18,21 @@
   <h1>
     Product Listings
   </h1>
-  <br>
-    <table>
-      <tr>
-        <td>Item ID</td>
-        <td>Product Name</td>
-        <td>Unit Price</td>
-      </tr>
+  <a class='my-2 btn btn-primary' href="create/">Create a Product</a>
+  <table id='listingTable' class='w-50 table table-striped table-borderless'>
+    <thead>
+      <th scope="col">Item ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Price</th>
+    </thead>
 
-    </table>
-  <a href="create/">Create a Product</a>
-  <a href="update/">Update a Product</a>
-  <a href="delete/">Delete a Product</a>
+    <tbody>
+
+    </tbody>
+
+  </table>
+
+
 
 </body>
 
@@ -34,17 +40,53 @@
 
 <script type='module'>
   toastr.options = {
-        "closeButton": false,
-        "positionClass": "toast-bottom-center",
-        "preventDuplicates": true
+    "closeButton": false,
+    "positionClass": "toast-bottom-center",
+    "preventDuplicates": true
   }
 
   let res = await fetch("/api/listings/");
-
+  let listings = [];
   if (res.status === 200) {
-    let json = await res.json();
-    console.log(json);
+    listings = await res.json();
+    console.log(listings);
+  } else {
+    let error = await res.text();
+    toastr.error(error, "Error");
   }
 
+  let entry = "";
+  if (listings.length > 0) {
+    for (var listing of listings) {
+      entry = entry + `<tr><th class='px-2 py-2' scope='col'>${listing.item_id}</th>
+                            <td class='px-2 py-2' >${listing.name}</td>
+                            <td class='px-2 py-2'>${listing.price}</td>
+                            <td class='px-2 py-2'><a class='btn btn-primary me-2' href=update/?itemID=${listing.item_id}>Edit</a> 
+                            <a class = 'btn btn-danger deleteButton' id=${listing.item_id}>Delete</a></td></tr>`;
+    }
+
+    $('#listingTable tbody').html(entry);
+  } else {
+    $('#listingTable').hide();
+  }
+
+  $(".deleteButton").click(async (e) => {
+    let item_id = e.target.id;
+    if (confirm("Are you sure you want to delete this record?")) {
+      // call delete api
+
+      let res = await fetch("/api/listings/delete/?item_id=" + item_id, {
+        method: "DELETE"
+      })
+
+      if (res.status === 200) {
+        window.location.reload();
+      } else {
+        let err = await res.text()
+        toastr.error(err, "Error")
+        console.error(err);
+      }
+    }
+  })
 
 </script>

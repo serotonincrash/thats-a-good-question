@@ -7,9 +7,10 @@ $item_id = $_REQUEST["item_id"];
 $query->bind_param('i', $item_id); //bind the parameters
 
 if ($query->execute()){
-    header("Location: /app/listings/");
+    echo "Item deleted successfully.";
     die();
-}else{
-    echo "Error executing query.";
+} else {
+    http_response_code(500);
+    die("Error executing query.");
 }
 ?>

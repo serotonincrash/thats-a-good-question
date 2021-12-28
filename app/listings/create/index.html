@@ -93,6 +93,7 @@
         $("#customisations").append(custHTML);
     })
 
+    // TODO create customisation/inventory remove button lol
 
     $('#createListingForm').submit(async (e) => {
         e.preventDefault();
@@ -101,7 +102,8 @@
             method: "POST",
             body: formData
         });
-        let text = await res.text();
-        console.log(text)
+        if (res.status === 200) {
+            window.location = "/app/listings/"
+        }
     })
 </script>
