@@ -15,12 +15,18 @@
 <body>
     <div id='navbar'></div>
     <div class='container'>
-        <form id='login' onsubmit="">
-            <input name='username' type="text" placeholder="Email/Username">
-            <input name='password' type="password" placeholder="Password">
-            <input type='submit'>
+        <form id='login'>
+            <div class='my-4 mb-3'>
+                <label class='form-label' for='username'>Username</label>
+                <input class="form-control" name='username' type="text" placeholder="Email/Username">
+            </div>
+            <div class='mb-3'>
+                <label class='form-label' for='password'>Password</label>
+                <input class="form-control" name='password' type="password" placeholder="Password">
+            </div>  
+
+            <button class='btn btn-primary'>Login</button>
         </form>
-        <p id='result'></p>
     </div>
 </body>
 
@@ -42,7 +48,7 @@
             body: formData
         })
         if (res.status === 200) {
-            
+
             let response = await fetch("/api/auth/user/");
             let json = await response.json();
             if (json) {

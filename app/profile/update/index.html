@@ -18,32 +18,55 @@
         <div>
             <h2>Account Information</h2>
             <form id='editInfoForm'>
-                <input required id='username' name='username' type="text" placeholder="Username">
-                <input required id='email' name='email' type="text" disabled placeholder="Email">
-                <input required name='password' type="password" placeholder="Current Password">
-                <input required name='newPassword' type="password" placeholder="New Password">
-                <input required name='confirmPassword' type="password" placeholder="New Password">
-
-                <input type='submit'>
+                <div class = 'mb-3'>
+                    <input class = 'form-control' required id='username' name='username' type="text" placeholder="Username">
+                </div>
+                <div class = 'mb-3'>
+                    <input class = 'form-control' required id='email' name='email' type="text" disabled placeholder="Email">
+                </div>
+                <div class = 'mb-3'>
+                    <input class = 'form-control' required name='password' type="password" placeholder="Current Password">
+                </div>
+                <div class = 'mb-3'>
+                    <input class = 'form-control' required name='newPassword' type="password" placeholder="New Password">
+                    <div id="passwordHelpBlock" class="form-text">
+                        Your password must be at least 8 characters long, contain letters and numbers, and at least one special character.
+                    </div>
+                </div>
+                <div class = 'mb-3'>
+                    <input class = 'form-control' required name='confirmPassword' type="password" placeholder="Confirm Password">
+                </div>
+                
+                <button class='btn btn-primary'>Update</button>
             </form>
         </div>
-        <p id='userInfoResult'></p>
         <div id="personalInfoSection" style="display: none;">
             <h2>Personal Information</h2>
             <form id='editPersonalInfoForm'>
                 <div id='personalInfo'>
-                    <input id='passwordVerify' required name='password' type='password' placeholder='Current Password'>
-                    <input id='firstName' required name='firstName' type='text' placeholder="First Name">
-                    <input id='lastName' required name='lastName' type='text' placeholder="Last Name">
-                    <input id='address' required name='address' type='text' placeholder="Address">
-                    <input id='postalCode' required name='postalCode' type='text' placeholder="Postal Code">
-                    <input id='phoneNumber' required name='phoneNumber' type='text' placeholder="Phone Number">
-                    <input type='submit'>
+                    <div class='mb-3'>
+                        <input class = 'form-control' id='passwordVerify' required name='password' type='password' placeholder='Current Password'>
+                    </div>
+                    <div class='mb-3'>
+                        <input class = 'form-control' id='firstName' required name='firstName' type='text' placeholder="First Name">
+                    </div>
+                    <div class='mb-3'>
+                        <input class = 'form-control' id='lastName' required name='lastName' type='text' placeholder="Last Name">
+                    </div>
+                    <div class='mb-3'>
+                        <textarea class = 'form-control' id='address' required name='address' type='text' placeholder="Address"></textarea>
+                    </div>
+                    <div class='mb-3'>
+                        <input class = 'form-control' id='postalCode' required name='postalCode' type='text' placeholder="Postal Code">
+                    </div>
+                    <div class='mb-3'>
+                        <input class = 'form-control' id='phoneNumber' required name='phoneNumber' type='text' placeholder="Phone Number">
+                    </div>
+
+                    <button class='btn btn-primary'>Update</button>
                 </div>
             </form>
         </div>
-
-        <p id='personalInfoResult'></p>
     </div>
 </body>
 
@@ -87,6 +110,7 @@
             body: formData
         })
         if (res.status === 200) {
+            localStorage.clear();
             window.location.href = "/";
         } else {
             let error = await res.text()
@@ -103,7 +127,6 @@
             body: formData
         })
         if (res.status === 200) {
-            localStorage.clear();
             window.location.href = "/";
         } else {
             let error = await res.text();

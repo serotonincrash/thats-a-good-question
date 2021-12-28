@@ -1,6 +1,7 @@
 <?php
 require_once('../../config.php');
 
+$
 $query= $con->prepare("DELETE FROM `items` WHERE item_id = ?");
 $item_id = $_REQUEST["item_id"];
 
