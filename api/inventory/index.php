@@ -18,10 +18,6 @@ if ($result = $inventoryStatement->get_result()) {
         while ($row =  $result->fetch_array(MYSQLI_ASSOC)) {
             $data[] = $row;
         }
-    } else {
-        // Send empty array
-
-        echo json_encode([]);
     }
 
     echo json_encode($data);

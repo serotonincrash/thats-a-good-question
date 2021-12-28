@@ -39,7 +39,12 @@
         "preventDuplicates": true
   }
 
-  let res = await fetch("/api/inventory/");
-  
+  let res = await fetch("/api/listings/");
+
+  if (res.status === 200) {
+    let json = await res.json();
+    console.log(json);
+  }
+
 
 </script>
