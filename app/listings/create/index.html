@@ -22,7 +22,7 @@
 
             <h2>Materials Used:</h2>
             <button type="button" id='addMatButton' class='btn btn-primary'>Add Material</button><br>
-            <div class='my-4' id='materialsUsed'></select>
+            <div class='my-4' id='materialsUsed'>
             </div>
 
             <h2>Customisations:</h2>
@@ -104,6 +104,9 @@
         });
         if (res.status === 200) {
             window.location = "/app/listings/"
+        } else {
+            let error = await res.text();
+            toastr.error(error, "Error");
         }
     })
 </script>

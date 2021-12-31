@@ -1,6 +1,20 @@
 <?php
 require_once('../../config.php');
 mysqli_report(MYSQLI_REPORT_ALL);
+session_start();
+if ($_SERVER['REQUEST_METHOD'] !== "POST") {
+    http_response_code(405);
+    die();
+}
+if (count($_SESSION) === 0) {
+    http_response_code(401);
+    die("You need to be logged in to do that!");
+}
+if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin') {
+    http_response_code(403);
+    die("You're not allowed to access this!");
+}
+
 $query = $con->prepare("INSERT INTO `items` (`name`, `description`, `price`, `vendor_id`) VALUES(?,?,?,?)");
 
 $item_name = htmlspecialchars($_REQUEST["item_name"]);
@@ -11,26 +25,19 @@ $price = htmlspecialchars($_REQUEST["price"]);
 
 $material_values = array_count_values($materials);
 
-// Process metadata
-
-
-// Process inventory requirements
-
-
-session_start();
 $vendor_id = $_SESSION["user_id"];
 
 $query->bind_param('ssii', $item_name, $description, $price, $vendor_id); //bind the parameters
 
-if ($query->execute()){ //execute query
+if ($query->execute()) { //execute query
 
     $item_id = $query->insert_id;
 
     // Insert metadata
 
-    // do bulk insert
-    $in = str_repeat('(?,?),', count($material_values) - 1) . '(?,?)';
-    $query = "INSERT INTO metadata (item_id, metadata_name) VALUES ".$in;
+    // do bulk insert4
+    $in = str_repeat('(?,?),', count($metadata) - 1) . '(?,?)';
+    $query = "INSERT INTO metadata (item_id, metadata_name) VALUES " . $in;
     $metaQuery = $con->prepare($query);
     $types = str_repeat('is', count($metadata));
 
@@ -51,7 +58,7 @@ if ($query->execute()){ //execute query
     // do bulk insert
     // I hate php
     $in    = str_repeat('(?,?,?),', count($material_values) - 1) . '(?,?,?)';
-    $query = "INSERT INTO item_inventory_usage (item_id, part_id, amount) VALUES ".$in;
+    $query = "INSERT INTO item_inventory_usage (item_id, part_id, amount) VALUES " . $in;
     $invQuery = $con->prepare($query);
     $types = str_repeat('iis', count($material_values));
 
@@ -63,10 +70,14 @@ if ($query->execute()){ //execute query
     }
 
     // Prepare values
-    $invQuery->bind_param($types, ...$values_arr); 
-    
+    $invQuery->bind_param($types, ...$values_arr);
+
+    if ($invQuery->execute()) {
+        echo "Created successfully.";
+    } else {
+        echo "An error occured.";
+    }
     die();
 } else {
     echo "Error executing query.";
 }
-?>
