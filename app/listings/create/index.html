@@ -13,7 +13,7 @@
 <body>
     <div id='navbar'></div>
     <div class='container-fluid'>
-        <form id='createListingForm' method="post">
+        <form id='editListingForm'>
             <h1>Product Creation</h1>
             <h2>Product Name:</h2>
             <input type="text" name="item_name"><br><br>
@@ -76,8 +76,7 @@
             matSelect += `<option value='${mat.part_id}'>${mat.part_name}</option>`
         }
         matSelect += `</select></div>`
-        let matHTML = $.parseHTML(matSelect);
-        $("#materialsUsed").append(matHTML);
+        
     })
 
     // Customisations handling
@@ -95,7 +94,7 @@
 
     // TODO create customisation/inventory remove button lol
 
-    $('#createListingForm').submit(async (e) => {
+    $('#editListingForm').submit(async (e) => {
         e.preventDefault();
         const formData = new FormData(document.querySelector('#createListingForm'));
         let res = await fetch("/api/listings/create/", {

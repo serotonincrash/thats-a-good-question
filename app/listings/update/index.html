@@ -48,14 +48,34 @@
     "preventDuplicates": true
   }
 
-  // material handling
+
+
+  // Get item information
+
   let params = new URLSearchParams(window.location.search);
   let itemID = params.get("itemID");
+
   if (!itemID) {
     toastr.error("There's no item ID to edit!", "Error");
   }
-  let matIndex = 1;
+
   let res = await fetch(`/api/listings/item/?item_id=${itemID}`);
+  let info = {};
+  if (res.status === 200) {
+    info = await res.json();
+    console.log(info);
+  } else {
+    let error = await res.text();
+    toastr.error(error, "Error");
+  }
+  $("#itemName").val(info.info[0].name).change();
+  $("#description").val(info.info[0].description).change();
+  $("#price").val(info.info[0].price).change();
+
+  // material handling
+
+  let matIndex = 1;
+  res = await fetch(`/api/inventory/`);
   let mats = {};
   if (res.status === 200) {
     mats = await res.json();
@@ -65,9 +85,33 @@
     toastr.error(error, "Error");
   }
 
-  let matSelect = `<div class='mt-2'><label class = 'me-2' for='materials[]'>Material ${matIndex}:</label><select name='materials[]'>`;
-  for (let mat of mats) {
-    matSelect += `<option value='${mat.part_id}'>${mat.part_name}</option>`
+  for (let chosenMaterial of info.materials) {
+
+    for (let x of [...Array(chosenMaterial.amount).keys()]) {
+      let id = `material${matIndex}`;
+      let matSelect = `<div class='mt-2'><label class = 'me-2' for='materials[]'>Material ${matIndex}:</label><select id=${id}   name='materials[]'>`;
+      for (let mat of mats) {
+        matSelect += `<option value='${mat.part_id}'>${mat.part_name}</option>`
+      }
+      matSelect += `</select></div>`
+      let matHTML = $.parseHTML(matSelect);
+      $("#materialsUsed").append(matHTML);
+      $("#" + id).val(chosenMaterial.part_id).change();
+      matIndex += 1;
+    }
+
   }
-  matSelect += `</select></div>`
+
+  // metadata handling 
+  let custIndex = 1;
+  for (let metadata of info.metadata) {
+    let custSelect = `<div class='mt-2'><label class = 'me-2' for='metadata'>Customisation ${custIndex}</label><input name='metadata[]' value=${metadata.metadata_name} placeholder='Customisation name'></div>`
+    let custHTML = $.parseHTML(custSelect);
+    $("#customisations").append(custHTML);
+    custIndex += 1;
+  }
+
+
+
+
 </script>

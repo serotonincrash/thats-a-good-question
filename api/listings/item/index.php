@@ -15,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] !== "GET") {
     die("You're not allowed to access this!");
   }
 
-
 if (!$_REQUEST['item_id']) {
     http_response_code(400);
     die("No item ID was specified!");
@@ -41,12 +40,12 @@ if ($metaQuery->execute()) {
     }
 }
 
-$invQuery = $con->prepare("SELECT inventory.part_id as part_id, inventory.part_name as name FROM item_inventory_usage INNER JOIN inventory ON inventory.part_id = item_inventory_usage.part_id WHERE item_inventory_usage.item_id = ?");
+$invQuery = $con->prepare("SELECT inventory.part_id as part_id, inventory.part_name as name, item_inventory_usage.amount as amount FROM item_inventory_usage INNER JOIN inventory ON inventory.part_id = item_inventory_usage.part_id WHERE item_inventory_usage.item_id = ?");
 $invQuery->bind_param("i", $item_id);
 if ($invQuery->execute()) {
     if ($result = $invQuery->get_result()) {
         $result_set = $result->fetch_all(MYSQLI_ASSOC);
-        $data['inventory'] = $result_set;
+        $data['materials'] = $result_set;
     }
 }
 
