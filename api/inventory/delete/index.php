@@ -18,10 +18,15 @@
     http_response_code(403);
     die("You're not allowed to do this!");
   }
-  if (!$_GET['part_id'] || (strval($_GET['part_id']) !== strval(intval($_GET['part_id'])))) {
-    // part_id not defined or not an int
+  if (!isset($_GET['part_id'])) {
     http_response_code(400);
-    die("Your item ID is incorrect!");
+    die("The item ID is missing!");
+  }
+
+  if (strval($_GET['part_id']) !== strval(intval($_GET['part_id']))) {
+    // part_id not an int
+    http_response_code(400);
+    die("Your item ID is not an integer!");
   }
 
     $id = $_GET['part_id'];

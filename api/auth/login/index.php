@@ -11,6 +11,7 @@
         http_response_code(403);
         die("You're already logged in!");
     }
+
     $username = $_POST['username'];
     $password = $_POST['password'];
 

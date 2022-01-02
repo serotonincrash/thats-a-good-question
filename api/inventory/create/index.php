@@ -20,7 +20,7 @@
 
   // Validate data
 
-  if (!$_POST || !$_POST['partName'] || !$_POST['sku'] || !$_POST['stock']) {
+  if (!isset($_POST) || !isset($_POST['partName']) || !isset($_POST['sku']) || !isset($_POST['stock'])) {
     http_response_code(400);
     die("One or more parameters are not present!");
   }

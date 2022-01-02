@@ -1,6 +1,5 @@
 <?php
 require_once('../../config.php');
-mysqli_report(MYSQLI_REPORT_ALL);
 session_start();
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {
     http_response_code(405);
@@ -15,7 +14,10 @@ if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin') {
     die("You're not allowed to access this!");
 }
 
-$query = $con->prepare("INSERT INTO `items` (`name`, `description`, `price`, `vendor_id`) VALUES(?,?,?,?)");
+if (!isset($_REQUEST["item_name"]) || !isset($_REQUEST["description"]) || !isset($_REQUEST["materials"]) || !isset($_REQUEST["metadata"]) || !isset($_REQUEST["price"])) {
+    http_response_code(400);
+    die("One or more parameters is invalid or missing!");
+}
 
 $item_name = htmlspecialchars($_REQUEST["item_name"]);
 $description = htmlspecialchars($_REQUEST["description"]);
@@ -26,8 +28,8 @@ $price = htmlspecialchars($_REQUEST["price"]);
 $material_values = array_count_values($materials);
 
 $vendor_id = $_SESSION["user_id"];
-
-$query->bind_param('ssii', $item_name, $description, $price, $vendor_id); //bind the parameters
+$query = $con->prepare("INSERT INTO `items` (`name`, `description`, `price`, `vendor_id`) VALUES(?,?,?,?)");
+$query->bind_param('ssii', $item_name, $description, $price, $vendor_id); 
 
 if ($query->execute()) { //execute query
 

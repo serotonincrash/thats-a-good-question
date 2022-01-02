@@ -7,7 +7,7 @@
     }
     session_start();
 
-    if (count($_SESSION) === 0 || !$_SESSION || !$_SESSION['role'] || !$_SESSION['user_id']) {
+    if (count($_SESSION) === 0 || !$_SESSION || !isset($_SESSION['role']) || !isset($_SESSION['user_id'])) {
         http_response_code(401);
         die("You're not logged in!");
     }
@@ -20,7 +20,7 @@
     }
 
     // Null check
-    if (!$_POST["firstName"] || !$_POST["lastName"] || !$_POST["phoneNumber"] || !$_POST["postalCode"] || !$_POST['password']) {
+    if (!isset($_POST["firstName"]) || !isset($_POST["lastName"]) || !isset($_POST["phoneNumber"]) || !isset($_POST["postalCode"]) || !isset($_POST['password'])) {
         http_response_code(400);
         die("One of the the fields is blank!");
     }

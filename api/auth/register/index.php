@@ -7,7 +7,7 @@
     }
 
     // Null check
-    if (!$_POST["role"] || !$_POST["email"] || !$_POST["username"] || !$_POST["password"] || !$_POST["passwordConfirm"]) {
+    if (!isset($_POST["role"]) || !isset($_POST["email"]) || !isset($_POST["username"]) || !isset($_POST["password"]) || !isset($_POST["passwordConfirm"])) {
         http_response_code(400);
         die("One of the the fields is blank!");
     }

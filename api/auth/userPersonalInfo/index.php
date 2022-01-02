@@ -11,6 +11,11 @@
         die("You're not logged in!");
     }
 
+    if (!isset($_SESSION['user_id'])) {
+        http_response_code(500);
+        die("An error occured. Please try logging out and logging back in.");
+    }
+    
     $userID = $_SESSION['user_id'];
     
     $userStatement = mysqli_prepare($con, "SELECT * FROM tagq.personal_info WHERE user_id = ?");

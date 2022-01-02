@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== "GET") {
     die("You're not allowed to access this!");
   }
 
-if (!$_REQUEST['item_id']) {
+if (!isset($_REQUEST['item_id'])) {
     http_response_code(400);
     die("No item ID was specified!");
 }

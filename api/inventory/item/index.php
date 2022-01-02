@@ -15,10 +15,10 @@ if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin') {
     http_response_code(403);
     die("You're not allowed to access this!");
 }
-if(!$_GET['partID'] || (strval($_GET['partID']) !== strval(intval($_GET['partID'])))) {
-    // partID not defined or not an int
+if(!isset($_GET['partID']) || (strval($_GET['partID']) !== strval(intval($_GET['partID'])))) {
+    // partID not an int
     http_response_code(400);
-    die("Your item ID is incorrect!");
+    die("Your item ID is not an integer!");
 }
 
 $partID = (int) $_GET['partID'];

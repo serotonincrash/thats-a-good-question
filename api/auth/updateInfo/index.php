@@ -18,7 +18,7 @@
 
     
     // Null check
-    if (!$_POST["username"] || !$_POST["password"] || !$_POST["newPassword"]|| !$_POST["confirmPassword"]) {
+    if (!isset($_POST["username"]) || !isset($_POST["password"]) || !isset($_POST["newPassword"]) || !isset($_POST["confirmPassword"])) {
         http_response_code(400);
         die("One of the the fields is blank!");
     }
