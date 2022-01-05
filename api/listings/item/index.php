@@ -10,7 +10,12 @@ if ($_SERVER['REQUEST_METHOD'] !== "GET") {
     http_response_code(401);
     die("You need to be logged in to do that!");
   }
-  if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin') {
+  if (!isset($_SESSION['role'])) {
+    http_response_code(401);
+    die("You need to be logged in to do that!");
+  }
+
+  if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'User') {
     http_response_code(403);
     die("You're not allowed to access this!");
   }
@@ -50,4 +55,3 @@ if ($invQuery->execute()) {
 }
 
 echo json_encode($data);
-?>

@@ -14,12 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] !== "DELETE") {
     die("You're not allowed to access this!");
   }
 
-$query= $con->prepare("DELETE FROM `items` WHERE item_id = ?");
+$delQuery= $con->prepare("DELETE FROM `items` WHERE item_id = ?");
 $item_id = $_REQUEST["item_id"];
 
-$query->bind_param('i', $item_id); //bind the parameters
+$delQuery->bind_param('i', $item_id); //bind the parameters
 
-if ($query->execute()){
+if ($delQuery->execute()){
     echo "Item deleted successfully.";
     die();
 } else {

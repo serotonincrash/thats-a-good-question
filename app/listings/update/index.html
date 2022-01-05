@@ -21,13 +21,11 @@
       <h2>Description:</h2> <textarea required id='description' name="description" rows="5" cols="40"></textarea><br><br>
 
       <h2>Materials Used:</h2>
-      <button type="button" id='addMatButton' class='btn btn-primary'>Add Material</button><br>
       <div class='my-4' id='materialsUsed'>
       </div>
 
       <h2>Customisations:</h2>
-      <button type="button" id='addCustButton' class='btn btn-primary'>Add Customisation</button>
-      <br>
+
       <div class='my-4' id='customisations'>
 
       </div>
@@ -88,11 +86,7 @@
 
     for (let x of [...Array(chosenMaterial.amount).keys()]) {
       let id = `material${matIndex}`;
-      let matSelect = `<div id='${matIndex}' class='mt-2'><label class = 'me-2' for='materials[]'>Material Name:</label><select id='${id}' name='materials[]'> `;
-      for (let mat of mats) {
-        matSelect += `<option value='${mat.part_id}'>${mat.part_name}</option>`
-      }
-      matSelect += `</select><button type='button' class = 'mx-2 btn btn-danger delMatButton'>Delete Material</button></div>`
+      let matSelect = `<div id='${matIndex}' class='mt-2'><label class = 'me-2' for='materials[]'>Material ${matIndex}:</label><input disabled value=${chosenMaterial.name} disabled placeholder='Material name'></div>`;
       let matHTML = $.parseHTML(matSelect);
       $("#materialsUsed").append(matHTML);
       $("#" + id).val(chosenMaterial.part_id).change();
@@ -104,62 +98,22 @@
   // metadata handling 
   let custIndex = 1;
   for (let metadata of info.metadata) {
-    let custSelect = `<div id='${custIndex}' class='mt-2'><label class = 'me-2' for='metadata'>Customisation Name:</label><input name='metadata[]' value=${metadata.metadata_name} placeholder='Customisation name'><button type='button' class = 'mx-2 btn btn-danger delMetaButton'>Delete Customisation</button></div>`
+    let custSelect = `<div id='${custIndex}' class='mt-2'><label class = 'me-2' for='metadata'>Customisation Name:</label><input disabled value=${metadata.metadata_name} disabled placeholder='Customisation name'></div>`
     let custHTML = $.parseHTML(custSelect);
     $("#customisations").append(custHTML);
     custIndex += 1;
   }
-
-  let delMatClickEvent = (e) => {
-    let div = e.target.parentElement;
-    let id = div.id;
-    let deletedMatID = `#materialsUsed #${id}`;
-    $(deletedMatID).remove();
-  }
-
-  $('.delMatButton').click(delMatClickEvent);
-
-  let delMetaClickEvent = (e) => {
-    let div = e.target.parentElement;
-    let id = div.id;
-    let deletedMetaID = `#customisations #${id}`;
-    $(deletedMetaID).remove();
-  }
-
-  $('.delMetaButton').click(delMetaClickEvent);
-
-  $("#addMatButton").click((e) => {
-    matIndex += 1;
-    let matSelect = `<div id = ${matIndex} class='mt-2'><label class = 'me-2' for='materials[]'>Material Name:</label><select name='materials[]'>`;
-    for (let mat of mats) {
-      matSelect += `<option value='${mat.part_id}'>${mat.part_name}</option>`
-    }
-    matSelect += `</select><button type='button' class = 'mx-2 btn btn-danger delMatButton'>Delete Material</button></div>`
-    let matHTML = $.parseHTML(matSelect);
-    $("#materialsUsed").append(matHTML);
-    $('.delMatButton').click(delMatClickEvent);
-  })
-
-  $("#addCustButton").click(() => {
-    custIndex += 1;
-    let custSelect = `<div id = ${custIndex} class='mt-2'><label class = 'me-2' for='metadata'>Customisation Name:</label><input name='metadata[]' placeholder='Customisation name'><button class = 'mx-2 btn btn-danger delMetaButton'>Delete Customisation</button><div>`
-    let custHTML = $.parseHTML(custSelect);
-    $("#customisations").append(custHTML);
-    $('.delMetaButton').click(delMetaClickEvent);
-  })
 
   $('#updateListingForm').submit(async (e) => {
     e.preventDefault();
     const formData = new FormData(document.querySelector('#updateListingForm'));
-    
+    formData.append("item_id", itemID);
     let res = await fetch("/api/listings/update/", {
         method: "POST",
         body: formData
     });
     if (res.status === 200) {
-      let text = await res.text();
-      console.log(text);
-        // window.location = "/app/listings/"
+      window.location = "/app/listings/"
     } else {
         let error = await res.text();
         toastr.error(error, "Error");
