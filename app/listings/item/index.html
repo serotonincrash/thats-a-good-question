@@ -56,7 +56,7 @@
     toastr.error(error, "Error");
   }
 
-  $("#itemTitle").text(info.info[0].name);
+  $("#itemTitle").text(`Viewing ${info.info[0].name}`);
   $("#itemDescription").text(info.info[0].description);
   $("#price").text(`$${info.info[0].price}`);
 
@@ -64,7 +64,7 @@
     $("#customisations").html("<p>No customisations available.</p>")
   } else {
     for (let metadata of info.metadata) {
-      let metaSelect = `<div class='my-2'><input id = '${metadata.metadata_name}' placeholder='${metadata.metadata_name}'><div>`
+      let metaSelect = `<div class='my-2'><input id = '${metadata.id}' placeholder='${metadata.metadata_name}'><div>`
       let metaHTML = $.parseHTML(metaSelect);
       $("#customisations").append(metaHTML);
     }
@@ -75,6 +75,7 @@
     $("#customisations input").each((index, element) => {
       metadata[element.id] = $(element).val();
     });
+    console.log(metadata);
     let metaJson = JSON.stringify(metadata);
     let formData = new FormData();
     formData.append("metadata", metaJson);
@@ -85,8 +86,7 @@
   
     if (res.status === 200) {
       let text = await res.text();
-      console.log(text);
-      // window.location = "/";
+      window.location = "/";
     } else {
       let err = await res.text();
       console.log(err);
