@@ -1,0 +1,44 @@
+<?php
+mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
+require_once("../config.php");
+session_start();
+if (count($_SESSION) === 0) {
+    http_response_code(401);
+    die("You need to be logged in to do that!");
+}
+
+// Anyone can grab the info
+if (!isset($_SESSION['role'])) {
+    http_response_code(401);
+    die("You need to be logged in to do that!");
+}
+
+$role = $_SESSION['role'];
+if ($role == "User") {
+    $orderQuery = $con->prepare("SELECT orders.order_id, items.name, users.username, orders.fulfilled, vendors.username as vendorName FROM (orders INNER JOIN users on orders.buyer_id = users.user_id) INNER JOIN (items INNER JOIN users as vendors on items.vendor_id = vendors.user_id) on orders.item_id = items.item_id WHERE orders.buyer_id = ?");
+    $orderQuery->bind_param("i", $_SESSION['user_id']);
+    if ($orderQuery->execute()) {
+        $data = [];
+        if ($result = $orderQuery->get_result()) {
+            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+    }
+} else {
+    $orderQuery = $con->prepare("SELECT orders.order_id, items.name, users.username, orders.fulfilled, vendors.username as vendorName FROM (orders INNER JOIN users on orders.buyer_id = users.user_id) INNER JOIN (items INNER JOIN users as vendors on items.vendor_id = vendors.user_id) ON items.vendor_id = ? AND items.item_id = orders.item_id");
+    $orderQuery->bind_param("i", $_SESSION['user_id']);
+    if ($orderQuery->execute()) {
+        $data = [];
+        if ($result = $orderQuery->get_result()) {
+            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                $data[] = $row;
+            }
+        }
+        echo json_encode($data);
+    }
+}
+
+
+?>
