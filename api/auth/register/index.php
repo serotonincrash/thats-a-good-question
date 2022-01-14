@@ -12,8 +12,8 @@
         die("One of the the fields is blank!");
     }
 
-    $email = htmlspecialchars($_POST["email"]);
-    $username = htmlspecialchars($_POST["username"]);
+    $email = htmlspecialchars($_POST["email"], ENT_QUOTES);
+    $username = htmlspecialchars($_POST["username"], ENT_QUOTES);
     $password = $_POST["password"];
     $passwordConfirm = $_POST["passwordConfirm"];
     $role = $_POST["role"];
@@ -50,11 +50,11 @@
         }
 
         // Signup is for user, store personal information
-        $firstName = htmlspecialchars($_POST["firstName"]);
-        $lastName = htmlspecialchars($_POST["lastName"]);
-        $address = htmlspecialchars($_POST["address"]);
-        $phone = htmlspecialchars($_POST["phoneNumber"]);
-        $postal = htmlspecialchars($_POST["postalCode"]);
+        $firstName = htmlspecialchars($_POST["firstName"], ENT_QUOTES);
+        $lastName = htmlspecialchars($_POST["lastName"], ENT_QUOTES);
+        $address = htmlspecialchars($_POST["address"], ENT_QUOTES);
+        $phone = htmlspecialchars($_POST["phoneNumber"], ENT_QUOTES);
+        $postal = htmlspecialchars($_POST["postalCode"], ENT_QUOTES);
 
     }
 

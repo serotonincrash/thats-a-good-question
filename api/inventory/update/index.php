@@ -29,10 +29,10 @@ if((strval($_POST['stock']) !== strval(intval($_POST['stock'])))) {
   die("Stock is not a number!");
 }
 
-$part_id = htmlspecialchars($_POST['partID']);
-$part_name = htmlspecialchars($_POST['partName']);
-$sku = htmlspecialchars($_POST['sku']);
-$stock = htmlspecialchars($_POST["stock"]);
+$part_id = htmlspecialchars($_POST['partID'], ENT_QUOTES);
+$part_name = htmlspecialchars($_POST['partName'], ENT_QUOTES);
+$sku = htmlspecialchars($_POST['sku'], ENT_QUOTES);
+$stock = htmlspecialchars($_POST["stock"], ENT_QUOTES);
 
 $updateStatement = $con->prepare("UPDATE tagq.inventory SET part_name = ?, sku = ?, stock = ? WHERE part_id = ?");
 

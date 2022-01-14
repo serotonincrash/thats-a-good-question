@@ -27,11 +27,11 @@
 
     // Signup is for user, get personal information
     $password = $_POST['password'];
-    $firstName = htmlspecialchars($_POST["firstName"]);
-    $lastName = htmlspecialchars($_POST["lastName"]);
-    $address = htmlspecialchars($_POST["address"]);
-    $phone = htmlspecialchars($_POST["phoneNumber"]);
-    $postal = htmlspecialchars($_POST["postalCode"]);
+    $firstName = htmlspecialchars($_POST["firstName"], ENT_QUOTES);
+    $lastName = htmlspecialchars($_POST["lastName"], ENT_QUOTES);
+    $address = htmlspecialchars($_POST["address"], ENT_QUOTES);
+    $phone = htmlspecialchars($_POST["phoneNumber"], ENT_QUOTES);
+    $postal = htmlspecialchars($_POST["postalCode"], ENT_QUOTES);
     
 
     // Verify user before updating info

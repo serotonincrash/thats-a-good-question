@@ -1,7 +1,7 @@
 <?php
 require_once('../../config.php');
 session_start();
-if ($_SERVER['REQUEST_METHOD'] !== "POST") {
+if ($_SERVER['REQUEST_METHOD'] !== "PUT") {
     http_response_code(405);
     die();
 }
@@ -19,9 +19,9 @@ if (!isset($_REQUEST["item_name"]) || !isset($_REQUEST["description"]) || !isset
     die("One or more parameters is invalid or missing!");
 }
 
-$item_name = htmlspecialchars($_REQUEST["item_name"]);
-$description = htmlspecialchars($_REQUEST["description"]);
-$price = htmlspecialchars($_REQUEST["price"]);
+$item_name = htmlspecialchars($_REQUEST["item_name"], ENT_QUOTES);
+$description = htmlspecialchars($_REQUEST["description"], ENT_QUOTES);
+$price = htmlspecialchars($_REQUEST["price"], ENT_QUOTES);
 $item_id = $_REQUEST['item_id'];
 
 $itemQuery = $con->prepare('SELECT * FROM items WHERE item_id = ?');

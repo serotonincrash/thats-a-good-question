@@ -1,7 +1,7 @@
 <?php
 require_once('../../config.php');
 session_start();
-if ($_SERVER['REQUEST_METHOD'] !== "DELETE") {
+if ($_SERVER['REQUEST_METHOD'] !== "PUT") {
     http_response_code(405);
     die();
 }
@@ -17,7 +17,7 @@ if (!isset($_SESSION['role'])) {
 
 $role = $_SESSION['role'];
 
-if ($role !== 'User' && $role !== 'Vendor') {
+if ($role !== 'User') {
     http_response_code(403);
     die("You're not allowed to do this!");
 }
@@ -35,9 +35,8 @@ $orderQuery->bind_param("i", $order_id);
 
 if (!$orderQuery->execute()) {
     http_response_code(500);
-    die("There was an issue querying the database.");
+    die("There was an error querying the database.");
 }
-
 
 if ($result = $orderQuery->get_result()) {
     $row = $result->fetch_assoc();
@@ -49,20 +48,17 @@ if ($result = $orderQuery->get_result()) {
 
     if ($row['fulfilled']) {
         http_response_code(403);
-        die("You can't delete this!");
+        die("You can't fulfill an order that's already fulfilled!");
     }
-
-
 }
 
-// Delete order
-$deleteQuery = $con->prepare("DELETE FROM orders WHERE order_id = ?");
-$deleteQuery->bind_param("i", $order_id);
+// Update the order
+$updateQuery = $con->prepare("UPDATE orders set fulfilled = TRUE WHERE order_id = ?");
+$updateQuery->bind_param("i", $order_id);
 
-if ($deleteQuery->execute()) {
-    echo "Order deleted successfully.";
-} else {
+if (!$updateQuery->execute()) {
     http_response_code(500);
-    die("There was an issue querying the database.");
+    die("There was an error querying the database.");
 }
-?>
+
+echo "Updated successfully.";

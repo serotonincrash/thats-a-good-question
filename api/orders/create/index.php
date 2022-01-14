@@ -1,5 +1,4 @@
 <?php
-mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
 require_once('../../config.php');
 session_start();
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {
@@ -20,7 +19,14 @@ if (!isset($_REQUEST['metadata'])) {
     http_response_code(401);
     die("Your metadata isn't encoded properly!");
 }
+
 $metadata = json_decode($_REQUEST['metadata'], true);
+
+if (!$metadata) {
+    http_response_code(500);
+    die("The server encountered an issue parsing your metadata!");
+}
+
 if (!isset($_GET['itemID'])) {
     http_response_code(401);
     die("No item ID specified!");
@@ -62,7 +68,7 @@ $createMetaQuery = $con->prepare("INSERT INTO order_metadata (order_id, value, m
 $params = [];
 foreach ($metadata as $id => $val) {
     $params[] = $order_id;
-    $params[] = $val;
+    $params[] = htmlspecialchars($val, ENT_QUOTES);
     $params[] = $id;
 }
 
@@ -71,6 +77,7 @@ if (!$createMetaQuery->execute()) {
     http_response_code(500);
     die("An error occured whilst creating the metadata.");
 }
+
 // Update inventory 
 // Generate bulk update
 // I hate php

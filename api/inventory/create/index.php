@@ -25,9 +25,9 @@
     die("One or more parameters are not present!");
   }
 
-  $part_name = htmlspecialchars($_POST['partName']);
-  $sku = htmlspecialchars($_POST['sku']);
-  $stock = htmlspecialchars($_POST['stock']);
+  $part_name = htmlspecialchars($_POST['partName'], ENT_QUOTES);
+  $sku = htmlspecialchars($_POST['sku'], ENT_QUOTES);
+  $stock = htmlspecialchars($_POST['stock'], ENT_QUOTES);
 
   if (strval($stock) !== strval(intval($stock))) {
     // stock not defined or not an int
