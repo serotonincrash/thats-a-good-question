@@ -5,6 +5,11 @@
         http_response_code(405);
         die();
     }
+    session_start();
+    if (count($_SESSION) > 0) {
+        http_response_code(403);
+        die("You're already logged in!");
+    }
 
     // Null check
     if (!isset($_POST["role"]) || !isset($_POST["email"]) || !isset($_POST["username"]) || !isset($_POST["password"]) || !isset($_POST["passwordConfirm"])) {
@@ -90,6 +95,7 @@
         $_SESSION['user_id'] = $userID;
         $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
+        $_SESSION['timeout'] = time();
     } else {
         echo "Vendor account created succesfully.";
         // Log the user in
@@ -98,5 +104,6 @@
         $_SESSION['user_id'] = $userID;
         $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
+        $_SESSION['timeout'] = time();
     }
 ?>

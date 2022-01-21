@@ -53,6 +53,10 @@
     console.log(info)
   } else {
     let error = await res.text();
+    if (res.status === 401 && error === "Session timed out. Please log in again.") {
+      localStorage.clear();
+      window.location = "/app/login/";
+    }
     toastr.error(error, "Error");
   }
 
@@ -75,21 +79,25 @@
     $("#customisations input").each((index, element) => {
       metadata[element.id] = $(element).val();
     });
-    
+
     let metaJson = JSON.stringify(metadata);
     let formData = new FormData();
     formData.append("metadata", metaJson);
     res = await fetch(`/api/orders/create/?itemID=${itemID}`, {
       method: "POST",
-      body:formData
+      body: formData
     })
-  
+
     if (res.status === 200) {
       let text = await res.text();
       window.location = "/";
     } else {
       let err = await res.text();
-      console.log(err);
+      if (res.status === 401 && error === "Session timed out. Please log in again.") {
+        localStorage.clear();
+        window.location = "/app/login/";
+      }
+      toastr.error(err, "Error");
     }
   })
 </script>

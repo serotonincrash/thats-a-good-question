@@ -9,6 +9,8 @@ if (count($_SESSION) === 0) {
     http_response_code(401);
     die("You need to be logged in to do that!");
 }
+// assert that user is logged in - regen session id
+require_once("../../session.php");
 if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin') {
     http_response_code(403);
     die("You're not allowed to access this!");
@@ -29,7 +31,7 @@ $material_values = array_count_values($materials);
 
 $vendor_id = $_SESSION["user_id"];
 $query = $con->prepare("INSERT INTO `items` (`name`, `description`, `price`, `vendor_id`) VALUES(?,?,?,?)");
-$query->bind_param('ssii', $item_name, $description, $price, $vendor_id); 
+$query->bind_param('ssii', $item_name, $description, $price, $vendor_id);
 
 if ($query->execute()) { //execute query
 

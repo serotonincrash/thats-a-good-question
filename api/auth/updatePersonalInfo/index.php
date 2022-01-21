@@ -12,6 +12,9 @@
         die("You're not logged in!");
     }
 
+    // assert that user is logged in - regen session id
+    require_once("../../session.php");
+    
     $user_id = $_SESSION['user_id'];
     $role = $_SESSION['role'];
     if ($role !== "User") {

@@ -61,7 +61,7 @@
             }
             toastr.success("Logged in successfully!", "Success");
             window.location.href = "/";
-        } else if (res.status === 401) {
+        } else {
             let error = await res.text();
             toastr.error(error, "Error");
         }

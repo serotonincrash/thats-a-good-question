@@ -3,15 +3,19 @@
 
     session_start();
 
+    if (count($_SESSION) === 0) {
+        http_response_code(401);
+        die("You need to be logged in to do that!");
+    }
+
+    // assert that user is logged in - regen session id
+    require_once("../../session.php");
     if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
         http_response_code(405);
         die();
     }
     
-    if (!$_SESSION['user_id']) {
-        http_response_code(401);
-        die("You're not logged in!");
-    }
+    
     $id = (int) $_SESSION['user_id'];
     $statement = mysqli_prepare($con, "DELETE FROM tagq.users WHERE user_id = ?");
     $statement->bind_param("i", $id);

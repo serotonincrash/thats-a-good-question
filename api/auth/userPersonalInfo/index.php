@@ -8,8 +8,11 @@
     session_start();
     if (count($_SESSION) === 0) {
         http_response_code(401);
-        die("You're not logged in!");
+        die("You need to be logged in to do that!");
     }
+
+    // assert that user is logged in - regen session id
+    require_once("../../session.php");
 
     if (!isset($_SESSION['user_id'])) {
         http_response_code(500);

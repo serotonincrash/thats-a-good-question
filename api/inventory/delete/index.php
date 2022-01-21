@@ -13,6 +13,8 @@
     http_response_code(401);
     die("You need to be logged in to do that!");
   }
+  // assert that user is logged in - regen session id
+  require_once("../../session.php");
   if ($_SESSION['role'] !== 'Admin') {
     // No one can delete except Admin
     http_response_code(403);
@@ -29,17 +31,17 @@
     die("Your item ID is not an integer!");
   }
 
-    $id = $_GET['part_id'];
-    $deleteStatement = $con->prepare("DELETE FROM tagq.inventory WHERE part_id = ?");
-    $deleteStatement->bind_param("i", $id);
-    $deleteStatement->execute();
-    if ($err = $deleteStatement->errno) {
-      http_response_code(500);
-        
-      die("An error occured whilst sending the query to the database.");
-    } else {
-      echo "Item deleted successfully.";
-    }
+  $id = $_GET['part_id'];
+  $deleteStatement = $con->prepare("DELETE FROM tagq.inventory WHERE part_id = ?");
+  $deleteStatement->bind_param("i", $id);
+  $deleteStatement->execute();
+  if ($err = $deleteStatement->errno) {
+    http_response_code(500);
+
+    die("An error occured whilst sending the query to the database.");
+  } else {
+    echo "Item deleted successfully.";
+  }
 
   ?>
 </body>

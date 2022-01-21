@@ -53,6 +53,10 @@
         order = json;
     } else {
         let err = await res.text();
+        if (res.status === 401 && err === "Session timed out. Please log in again.") {
+                localStorage.clear();
+                window.location = "/app/login/";
+            }
         toastr.error(err, "Error");
     }
 
@@ -121,6 +125,10 @@
             window.location = "/app/orders/"
         } else {
             let err = await res.text();
+            if (res.status === 401 && err === "Session timed out. Please log in again.") {
+                localStorage.clear();
+                window.location = "/app/login/";
+            }
             toastr.error(err, "Error");
         }
     })
@@ -140,6 +148,10 @@
             window.location = "/app/orders/"
         } else {
             let err = await res.text();
+            if (res.status === 401 && err === "Session timed out. Please log in again.") {
+                localStorage.clear();
+                window.location = "/app/login/";
+            }
             toastr.error(err, "Error");
         }
     })
@@ -160,6 +172,10 @@
             window.location = "/app/orders/"
         } else {
             let err = await res.text();
+            if (res.status === 401 && err === "Session timed out. Please log in again.") {
+                localStorage.clear();
+                window.location = "/app/login/";
+            }
             toastr.error(err, "Error");
         }
     })

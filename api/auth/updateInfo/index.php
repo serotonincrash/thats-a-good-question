@@ -7,15 +7,16 @@
     }
 
     session_start();
-    if (count($_SESSION) === 0 || !$_SESSION || !$_SESSION['user_id']) {
+    if (count($_SESSION) === 0 || !isset($_SESSION) || !$_SESSION['user_id']) {
         http_response_code(401);
         die("You're not logged in!");
     }
 
+
+    // assert that user is logged in - regen session id
+    require_once("../../session.php");
     
     $user_id = $_SESSION['user_id'];
-    
-
     
     // Null check
     if (!isset($_POST["username"]) || !isset($_POST["password"]) || !isset($_POST["newPassword"]) || !isset($_POST["confirmPassword"])) {

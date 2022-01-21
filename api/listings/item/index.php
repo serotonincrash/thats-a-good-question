@@ -6,24 +6,13 @@ if ($_SERVER['REQUEST_METHOD'] !== "GET") {
   http_response_code(405);
   die();
 }
-if (count($_SESSION) === 0) {
-  http_response_code(401);
-  die("You need to be logged in to do that!");
-}
-if (!isset($_SESSION['role'])) {
-  http_response_code(401);
-  die("You need to be logged in to do that!");
-}
-
-if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'User') {
-  http_response_code(403);
-  die("You're not allowed to access this!");
-}
 
 if (!isset($_REQUEST['item_id'])) {
   http_response_code(400);
   die("No item ID was specified!");
 }
+// assert that user is logged in - regen session id
+require_once("../../session.php");
 $item_id = $_REQUEST['item_id'];
 
 $infoQuery = $con->prepare("SELECT name, description, price FROM items WHERE items.item_id = ?");

@@ -63,9 +63,12 @@
   let info = {};
   if (res.status === 200) {
     info = await res.json();
-
   } else {
     let error = await res.text();
+    if (res.status === 401 && error === "Session timed out. Please log in again.") {
+      localStorage.clear();
+      window.location = "/app/login/";
+    }
     toastr.error(error, "Error");
   }
   $("#itemName").val(info.info[0].name).change();
@@ -81,6 +84,10 @@
     mats = await res.json();
   } else {
     let error = await res.text();
+    if (res.status === 401 && error === "Session timed out. Please log in again.") {
+      localStorage.clear();
+      window.location = "/app/login/";
+    }
     toastr.error(error, "Error");
   }
 
@@ -118,6 +125,10 @@
       window.location = "/app/listings/"
     } else {
       let error = await res.text();
+      if (res.status === 401 && error === "Session timed out. Please log in again.") {
+        localStorage.clear();
+        window.location = "/app/login/";
+      }
       toastr.error(error, "Error");
     }
 

@@ -19,7 +19,7 @@
   <h1>
     Product Listings
   </h1>
-  <a id = 'createListingButton' class='my-2 btn btn-primary' href="create/">Create a Product</a>
+  <a id='createListingButton' class='my-2 btn btn-primary' href="create/">Create a Product</a>
   <table id='listingTable' class='w-50 table table-striped table-borderless'>
     <thead>
       <th scope="col">Item ID</th>
@@ -57,6 +57,10 @@
       console.log(listings);
     } else {
       let error = await res.text();
+      if (res.status === 401 && error === "Session timed out. Please log in again.") {
+        localStorage.clear();
+        window.location = "/app/login/";
+      }
       toastr.error(error, "Error");
     }
 
@@ -87,11 +91,14 @@
         if (res.status === 200) {
           let err = await res.text()
           toastr.error(err, "Error")
-          // window.location.reload();
+          window.location.reload();
         } else {
-          let err = await res.text()
-          toastr.error(err, "Error")
-          console.error(err);
+          let err = await res.text();
+          if (res.status === 401 && error === "Session timed out. Please log in again.") {
+            localStorage.clear();
+            window.location = "/app/login/";
+          }
+          toastr.error(err, "Error");
         }
       }
     })
@@ -104,6 +111,10 @@
       console.log(listings);
     } else {
       let error = await res.text();
+      if (res.status === 401 && error === "Session timed out. Please log in again.") {
+        localStorage.clear();
+        window.location = "/app/login/";
+      }
       toastr.error(error, "Error");
     }
 

@@ -9,6 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] !== "DELETE") {
     http_response_code(401);
     die("You need to be logged in to do that!");
   }
+  // assert that user is logged in - regen session id
+  require_once("../../session.php");
   if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin') {
     http_response_code(403);
     die("You're not allowed to access this!");
@@ -26,4 +28,3 @@ if ($delQuery->execute()){
     http_response_code(500);
     die("Error executing query.");
 }
-?>

@@ -33,7 +33,7 @@
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role'];
-                
+                $_SESSION['timeout'] = time();
             } else {
                 http_response_code(401);
                 echo "Your username/email or password is incorrect.";

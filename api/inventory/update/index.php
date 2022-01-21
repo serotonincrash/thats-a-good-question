@@ -13,6 +13,8 @@ if (count($_SESSION) === 0) {
   http_response_code(401);
   die("You need to be logged in to do that!");
 }
+// assert that user is logged in - regen session id
+require_once("../../session.php");
 if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin') {
   http_response_code(403);
   die("You're not allowed to access this!");
@@ -23,7 +25,7 @@ if (!isset($_POST['partID']) || !isset($_POST['partName']) || !isset($_POST['sku
   die("One of the fields is missing!");
 }
 
-if((strval($_POST['stock']) !== strval(intval($_POST['stock'])))) {
+if ((strval($_POST['stock']) !== strval(intval($_POST['stock'])))) {
   // stock not defined or not an int
   http_response_code(400);
   die("Stock is not a number!");

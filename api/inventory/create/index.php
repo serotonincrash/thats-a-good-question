@@ -13,6 +13,12 @@
     http_response_code(401);
     die("You need to be logged in to do that!");
   }
+  if (count($_SESSION) > 0) {
+    http_response_code(403);
+    die("You're already logged in!");
+  }
+  // assert that user is logged in - regen session id
+  require_once("../../session.php");
   if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin') {
     http_response_code(403);
     die("You're not allowed to access this!");

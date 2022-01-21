@@ -1,11 +1,13 @@
 <?php
-mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
 require_once("../config.php");
 session_start();
 if (count($_SESSION) === 0) {
     http_response_code(401);
     die("You need to be logged in to do that!");
 }
+
+// assert that user is logged in - regen session id
+require_once("../session.php");
 
 // Anyone can grab the info
 if (!isset($_SESSION['role'])) {
