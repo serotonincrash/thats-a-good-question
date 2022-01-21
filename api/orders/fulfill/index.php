@@ -23,12 +23,20 @@ if ($role !== 'User') {
     die("You're not allowed to do this!");
 }
 
-if(!isset($_GET['orderID']) || (strval($_GET['orderID']) !== strval(intval($_GET['orderID'])))) {
+if(!isset($_GET['orderID'])) {
+    // partID not an int
+    http_response_code(400);
+    die("Your order ID is missing!");
+}
+
+$order_id = $_GET['orderID'];
+
+if (strval($_GET['orderID']) !== strval(intval($_GET['orderID']))) {
     // partID not an int
     http_response_code(400);
     die("Your order ID is not an integer!");
 }
-$order_id = $_GET['orderID'];
+
 
 // Get order, make sure it belongs to the user/item belongs to the vendor
 $orderQuery = $con->prepare("SELECT orders.fulfilled as fulfilled, orders.buyer_id as buyer_id, items.vendor_id as vendor_id FROM orders INNER JOIN items ON orders.item_id = items.item_id WHERE order_id = ?");

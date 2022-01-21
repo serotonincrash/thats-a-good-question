@@ -1,23 +1,26 @@
 <?php
 require_once('../../config.php');
+session_start();
+if ($_SERVER['REQUEST_METHOD'] !== "POST") {
+    http_response_code(405);
+    die();
+}
+if (count($_SESSION) === 0) {
+    http_response_code(401);
+    die("You need to be logged in to do that!");
+}
+// assert that user is logged in - regen session id
+require_once("../../session.php");
 
-if(isset($_POST['submit'])){
-
-    $order_id=$_POST['order_id'];
-    $body=$_POST['body'];
-    $rating=$_POST['rating'];
-
-    //$sql="INSERT into `reviews` (order_id,body,rating) values ('','$body','$rating')"; //order_id set as null 
-    $sql="INSERT into `reviews` (order_id,body,rating) values ('$order_id','$body','$rating')";
-    $result=mysqli_query($con,$sql);
-    if($result){
-        echo "Data inserted succesfully";
-        header('location:/app/reviews/'); //after delete will redirect reviews
-    }else{
-        die(mysqli_error($con));
-    }
+// No one except users can create reviews
+if ($_SESSION['role'] !== 'User') {
+    http_response_code(403);
+    die("You're not allowed to access this!");
 }
 
+// Check if user already has a review
+
+// Create review
 
 ?>
 

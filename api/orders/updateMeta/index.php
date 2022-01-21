@@ -26,8 +26,13 @@ if ($role !== 'User') {
     die("You're not allowed to do this!");
 }
 
-if(!isset($_GET['orderID']) || (strval($_GET['orderID']) !== strval(intval($_GET['orderID'])))) {
-    // partID not an int
+if(!isset($_GET['orderID'])) {
+
+    http_response_code(400);
+    die("Your order ID is missing!");
+}
+
+if (strval($_GET['orderID']) !== strval(intval($_GET['orderID']))) {
     http_response_code(400);
     die("Your order ID is not an integer!");
 }

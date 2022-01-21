@@ -20,6 +20,7 @@
     http_response_code(403);
     die("You're not allowed to do this!");
   }
+  
   if (!isset($_GET['part_id'])) {
     http_response_code(400);
     die("The item ID is missing!");
