@@ -47,12 +47,12 @@ if ($invQuery->execute()) {
   }
 }
 
-$invQuery = $con->prepare("SELECT reviews.review_id, reviews.body, reviews.rating, users.username FROM reviews INNER JOIN (users INNER JOIN orders ON orders.buyer_id = users.id) ON reviews.order_id = orders.order_id WHERE orders.item_id = ?");
-$invQuery->bind_param("i", $item_id);
-if ($invQuery->execute()) {
-  if ($result = $invQuery->get_result()) {
+$reviewQuery = $con->prepare("SELECT reviews.review_id, reviews.body, reviews.rating, users.username FROM reviews INNER JOIN (users INNER JOIN orders ON orders.buyer_id = users.user_id) ON reviews.order_id = orders.order_id WHERE orders.item_id = ?");
+$reviewQuery->bind_param("i", $item_id);
+if ($reviewQuery->execute()) {
+  if ($result = $reviewQuery->get_result()) {
     $result_set = $result->fetch_all(MYSQLI_ASSOC);
-    $data['materials'] = $result_set;
+    $data['reviews'] = $result_set;
   }
 }
 
