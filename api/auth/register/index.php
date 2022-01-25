@@ -5,7 +5,7 @@
         http_response_code(405);
         die();
     }
-    session_start();
+    require_once("../../session_start.php");
     if (count($_SESSION) > 0) {
         http_response_code(403);
         die("You're already logged in!");
@@ -90,7 +90,7 @@
         }
         echo "User created successfully.";
         // Log the user in
-        session_start();
+        require_once("../../session_start.php");
         $_SESSION['username'] = $username;
         $_SESSION['user_id'] = $userID;
         $_SESSION['email'] = $email;
@@ -99,7 +99,7 @@
     } else {
         echo "Vendor account created succesfully.";
         // Log the user in
-        session_start();
+        require_once("../../session_start.php");
         $_SESSION['username'] = $username;
         $_SESSION['user_id'] = $userID;
         $_SESSION['email'] = $email;

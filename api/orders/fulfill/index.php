@@ -1,6 +1,6 @@
 <?php
 require_once('../../config.php');
-session_start();
+require_once("../../session_start.php");
 if ($_SERVER['REQUEST_METHOD'] !== "PUT") {
     http_response_code(405);
     die();
@@ -10,7 +10,7 @@ if (count($_SESSION) === 0) {
     die("You need to be logged in to do that!");
 }
 // assert that user is logged in - regen session id
-require_once("../../session.php");
+require_once("../../session_handler.php");
 if (!isset($_SESSION['role'])) {
     http_response_code(401);
     die("You need to be logged in to do that!");

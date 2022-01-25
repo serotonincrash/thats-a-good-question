@@ -1,5 +1,6 @@
 <?php
-$TIMEOUT = 30;
+// One day timeout for users
+$TIMEOUT = 86400;
 if (isset($_SESSION['timeout'])) {
     if ($TIMEOUT < time() - $_SESSION['timeout']) {
         session_destroy();

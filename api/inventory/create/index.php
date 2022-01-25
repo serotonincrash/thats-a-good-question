@@ -4,7 +4,7 @@
   <?php
   require_once("../../config.php");
 
-  session_start();
+  require_once("../../session_start.php");
   if ($_SERVER['REQUEST_METHOD'] !== "POST") {
     http_response_code(405);
     die();
@@ -18,7 +18,7 @@
     die("You're already logged in!");
   }
   // assert that user is logged in - regen session id
-  require_once("../../session.php");
+  require_once("../../session_handler.php");
   if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin') {
     http_response_code(403);
     die("You're not allowed to access this!");

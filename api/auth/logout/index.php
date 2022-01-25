@@ -1,6 +1,6 @@
 <?php
 
-    session_start();
+    require_once("../../session_start.php");
 
     if (isset($_SESSION) && count($_SESSION) > 0) {
         session_destroy();

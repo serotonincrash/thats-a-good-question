@@ -4,7 +4,7 @@
   <?php
   require_once("../../config.php");
 
-  session_start();
+  require_once("../../session_start.php");
   if ($_SERVER['REQUEST_METHOD'] !== "DELETE") {
     http_response_code(405);
     die();
@@ -14,7 +14,7 @@
     die("You need to be logged in to do that!");
   }
   // assert that user is logged in - regen session id
-  require_once("../../session.php");
+  require_once("../../session_handler.php");
   if ($_SESSION['role'] !== 'Admin') {
     // No one can delete except Admin
     http_response_code(403);

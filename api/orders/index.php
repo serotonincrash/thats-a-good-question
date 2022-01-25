@@ -1,13 +1,13 @@
 <?php
 require_once("../config.php");
-session_start();
+require_once("../session_start.php");
 if (count($_SESSION) === 0) {
     http_response_code(401);
     die("You need to be logged in to do that!");
 }
 
 // assert that user is logged in - regen session id
-require_once("../session.php");
+require_once("../session_handler.php");
 
 // Anyone can grab the info
 if (!isset($_SESSION['role'])) {

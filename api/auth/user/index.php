@@ -1,6 +1,6 @@
 <?php
 
-    session_start();
+    require_once("../../session_start.php");
     require('../../includes/json.php');
 
     if ($_SERVER['REQUEST_METHOD'] !== "GET") {
@@ -14,7 +14,7 @@
     }
 
     // assert that user is logged in - regen session id
-    require_once("../../session.php");
+    require_once("../../session_handler.php");
     
     if ($_SESSION['username']) {
         // returns session data if there is any

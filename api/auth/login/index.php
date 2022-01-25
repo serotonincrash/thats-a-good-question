@@ -1,6 +1,6 @@
 <?php
     require_once("../../config.php");
-    session_start();
+    require_once("../../session_start.php");
 
     if ($_SERVER['REQUEST_METHOD'] !== "POST") {
         http_response_code(405);

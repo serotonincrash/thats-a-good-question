@@ -1,7 +1,7 @@
 <?php
     require_once("../../config.php");
 
-    session_start();
+    require_once("../../session_start.php");
 
     if (count($_SESSION) === 0) {
         http_response_code(401);
@@ -9,7 +9,7 @@
     }
 
     // assert that user is logged in - regen session id
-    require_once("../../session.php");
+    require_once("../../session_handler.php");
     if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
         http_response_code(405);
         die();

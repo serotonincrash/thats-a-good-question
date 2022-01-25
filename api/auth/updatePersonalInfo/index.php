@@ -5,7 +5,7 @@
         http_response_code(405);
         die();
     }
-    session_start();
+    require_once("../../session_start.php");
 
     if (count($_SESSION) === 0 || !$_SESSION || !isset($_SESSION['role']) || !isset($_SESSION['user_id'])) {
         http_response_code(401);
@@ -13,7 +13,7 @@
     }
 
     // assert that user is logged in - regen session id
-    require_once("../../session.php");
+    require_once("../../session_handler.php");
     
     $user_id = $_SESSION['user_id'];
     $role = $_SESSION['role'];

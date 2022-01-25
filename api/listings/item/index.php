@@ -1,7 +1,7 @@
 <?php
 
 require_once('../../config.php');
-session_start();
+require_once("../../session_start.php");
 if ($_SERVER['REQUEST_METHOD'] !== "GET") {
   http_response_code(405);
   die();
@@ -12,7 +12,7 @@ if (!isset($_REQUEST['item_id'])) {
   die("No item ID was specified!");
 }
 // assert that user is logged in - regen session id
-require_once("../../session.php");
+require_once("../../session_handler.php");
 $item_id = $_REQUEST['item_id'];
 
 $infoQuery = $con->prepare("SELECT name, description, price FROM items WHERE items.item_id = ?");
@@ -46,5 +46,15 @@ if ($invQuery->execute()) {
     $data['materials'] = $result_set;
   }
 }
+
+$invQuery = $con->prepare("SELECT reviews.review_id, reviews.body, reviews.rating, users.username FROM reviews INNER JOIN (users INNER JOIN orders ON orders.buyer_id = users.id) ON reviews.order_id = orders.order_id WHERE orders.item_id = ?");
+$invQuery->bind_param("i", $item_id);
+if ($invQuery->execute()) {
+  if ($result = $invQuery->get_result()) {
+    $result_set = $result->fetch_all(MYSQLI_ASSOC);
+    $data['materials'] = $result_set;
+  }
+}
+
 
 echo json_encode($data);
