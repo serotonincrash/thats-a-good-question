@@ -11,9 +11,15 @@ if (!isset($_REQUEST['item_id'])) {
   http_response_code(400);
   die("No item ID was specified!");
 }
+
+$item_id = $_REQUEST['item_id'];
+
+if (strval($item_id) !== strval(intval($item_id))) {
+
+}
 // assert that user is logged in - regen session id
 require_once("../../session_handler.php");
-$item_id = $_REQUEST['item_id'];
+
 
 $infoQuery = $con->prepare("SELECT name, description, price FROM items WHERE items.item_id = ?");
 $infoQuery->bind_param("i", $item_id);
