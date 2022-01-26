@@ -34,6 +34,12 @@ if (!isset($_GET['itemID'])) {
     die("No item ID specified!");
 }
 
+foreach ($metadata as $value) {
+    if (strlen($value) > 255) {
+        http_response_code(400);
+        die("Your metadata input should be less than 255 characters!");
+    }
+}
 $item_id = $_GET['itemID'];
 $stockRequireQuery = $con->prepare("SELECT item_inventory_usage.part_id as part_id, item_inventory_usage.amount as amount, inventory.stock as stock FROM item_inventory_usage INNER JOIN inventory on inventory.part_id = item_inventory_usage.part_id WHERE item_id = ?");
 $stockRequireQuery->bind_param('i', $item_id);

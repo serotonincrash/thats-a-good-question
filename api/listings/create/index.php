@@ -27,10 +27,27 @@ $materials = $_REQUEST["materials"];
 $metadata = $_REQUEST["metadata"];
 $price = htmlspecialchars($_REQUEST["price"], ENT_QUOTES);
 
+// Length check
+if (strlen($item_name) > 128) {
+    http_response_code(400);
+    die("Your item name should be less than 128 characters long!");
+}
+
+if (strlen($description) > 1024) {
+    http_response_code(400);
+    die("Your description should be less than 1024 characters long!");
+}
+
+foreach ($metadata as $name) {
+    if (strlen($name) > 64) {
+        http_response_code(400);
+        die("Your metadata names should all be less than 64 characters long!");
+    }
+}
 $material_values = array_count_values($materials);
 
 $vendor_id = $_SESSION["user_id"];
-$query = $con->prepare("INSERT INTO `items` (`name`, `description`, `price`, `vendor_id`) VALUES(?,?,?,?)");
+$query = $con->prepare("INSERT INTO `items` (`name`, `description`, `price`, `vendor_id`) VALUES (?,?,?,?)");
 $query->bind_param('ssii', $item_name, $description, $price, $vendor_id);
 
 if ($query->execute()) { //execute query
@@ -39,7 +56,7 @@ if ($query->execute()) { //execute query
 
     // Insert metadata
 
-    // do bulk insert4
+    // do bulk insert
     $in = str_repeat('(?,?),', count($metadata) - 1) . '(?,?)';
     $query = "INSERT INTO metadata (item_id, metadata_name) VALUES " . $in;
     $metaQuery = $con->prepare($query);

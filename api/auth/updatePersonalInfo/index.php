@@ -36,7 +36,28 @@
     $phone = htmlspecialchars($_POST["phoneNumber"], ENT_QUOTES);
     $postal = htmlspecialchars($_POST["postalCode"], ENT_QUOTES);
     
-
+    // Length checks
+    if (strlen($firstName) > 32) {
+        http_response_code(400);
+        die("Your first name should be less than 32 characters long!");
+    }
+    if (strlen($lastName) > 32) {
+        http_response_code(400);
+        die("Your last name should be less than 32 characters long!");
+    }
+    if (strlen($address) > 200) {
+        http_response_code(400);
+        die("Your address should be less than 200 characters long!");
+    }
+    if (strlen($postal) > 16) {
+        http_response_code(400);
+        die("Your first name should be less than 16 characters long!");
+    }
+    if (strlen($phone) > 32) {
+        http_response_code(400);
+        die("Your phone number should be less than 32 characters long!");
+    }
+    
     // Verify user before updating info
     $verifyStatement = mysqli_prepare($con, "SELECT password FROM tagq.users WHERE user_id = ?");
 

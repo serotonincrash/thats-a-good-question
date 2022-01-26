@@ -41,6 +41,16 @@
     die("Stock is not a number!");
   }
 
+  if (strlen($sku) > 64) {
+    http_response_code(400);
+    die("Your SKU should be less than 64 characters long!");
+  }
+
+  if (strlen($part_name) > 64) {
+    http_response_code(400);
+    die("Your part name should be less than 64 characters long!");
+  }
+  
   $createStatement = $con->prepare("INSERT INTO tagq.inventory(part_name, sku, stock) VALUES (?,?,?)");
   $createStatement->bind_param("ssi", $part_name, $sku, $stock);
   $createStatement->execute();

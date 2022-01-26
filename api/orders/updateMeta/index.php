@@ -49,6 +49,13 @@ if (!$metadata) {
     die("The server encountered an issue parsing your metadata!");
 }
 
+foreach ($metadata as $value) {
+    if (strlen($value) > 255) {
+        http_response_code(400);
+        die("Your metadata input should be less than 255 characters!");
+    }
+}
+
 // Update metadata
 // Generate bulk update, copied from the other statement
 // I hate php

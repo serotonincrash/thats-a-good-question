@@ -9,8 +9,10 @@ if (count($_SESSION) === 0) {
     http_response_code(401);
     die("You need to be logged in to do that!");
 }
+
 // assert that user is logged in - regen session id
 require_once("../../session_handler.php");
+
 if ($_SESSION['role'] !== 'Vendor' && $_SESSION['role'] !== 'Admin') {
     http_response_code(403);
     die("You're not allowed to access this!");
@@ -25,6 +27,17 @@ $item_name = htmlspecialchars($_REQUEST["item_name"], ENT_QUOTES);
 $description = htmlspecialchars($_REQUEST["description"], ENT_QUOTES);
 $price = htmlspecialchars($_REQUEST["price"], ENT_QUOTES);
 $item_id = $_REQUEST['item_id'];
+
+// Length check
+if (strlen($item_name) > 128) {
+    http_response_code(400);
+    die("Your item name should be less than 128 characters long!");
+}
+
+if (strlen($description) > 1024) {
+    http_response_code(400);
+    die("Your description should be less than 1024 characters long!");
+}
 
 $itemQuery = $con->prepare('SELECT * FROM items WHERE item_id = ?');
 $itemQuery->bind_param('i', $item_id);

@@ -36,6 +36,16 @@ $part_name = htmlspecialchars($_POST['partName'], ENT_QUOTES);
 $sku = htmlspecialchars($_POST['sku'], ENT_QUOTES);
 $stock = htmlspecialchars($_POST["stock"], ENT_QUOTES);
 
+if (strlen($sku) > 64) {
+  http_response_code(400);
+  die("Your SKU should be less than 64 characters long!");
+}
+
+if (strlen($part_name) > 64) {
+  http_response_code(400);
+  die("Your part name should be less than 64 characters long!");
+}
+
 $updateStatement = $con->prepare("UPDATE tagq.inventory SET part_name = ?, sku = ?, stock = ? WHERE part_id = ?");
 
 $updateStatement->bind_param('ssii', $part_name, $sku, $stock, $part_id);

@@ -68,8 +68,17 @@
         http_response_code(400);
         die("Your password isn't secure enough! It should be more than 8 characters long and contain letters, and at least one number and special character.");
     }
-    
 
+    // Length bounds checking 
+    if (strlen($username) > 32) {
+        http_response_code(400);
+        die("Your username is too long!");
+    }
+    
+    if (strlen($newPassword) > 72) {
+        http_response_code(400);
+        die("Your password should be less than 72 characters long!");
+    }
     // Hash password using bcrypt 
     $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
     // Update user statement
