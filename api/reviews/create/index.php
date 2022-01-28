@@ -11,11 +11,12 @@ if (count($_SESSION) === 0) {
 }
 // assert that user is logged in - regen session id
 require_once("../../session_handler.php");
-if (!isset($_GET['order_id']) || !isset($_POST['body']) || !isset($_GET['rating'])) {
+if (!isset($_GET['orderID']) || !isset($_POST['body']) || !isset($_POST['rating'])) {
     http_response_code(400);
-    die("Order ID not set!");
+    die("One or more parameters is missing!");
 }
-$rating = $_GET['rating'];
+$order_id = $_GET["orderID"];
+$rating = $_POST['rating'];
 $body =  $_POST['body'];
 if (strval($order_id) !== strval(intval($order_id))) {
     http_response_code(400);

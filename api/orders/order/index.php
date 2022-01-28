@@ -75,7 +75,22 @@ if ($result = $itemQuery->get_result()) {
     die("An error occured whilst querying the database.");
 }
 
+// Select all reviews that are associated with this order
+$reviewQuery = $con->prepare("SELECT * FROM reviews where order_id = ?");
+$reviewQuery->bind_param("i", $order_id);
+if (!$reviewQuery->execute()) {
+    http_response_code(500);
+    die("An error occured whilst querying the database.");
+} 
 
+if ($result = $reviewQuery->get_result()) {
+    // There should only be one review
+    $row = $result->fetch_assoc();
+    $order['review'] = $row;
+} else {
+    http_response_code(500);
+    die("An error occured whilst querying the database.");
+}
 
 echo json_encode($order);
 ?>

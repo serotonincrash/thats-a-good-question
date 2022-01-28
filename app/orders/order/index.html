@@ -90,8 +90,23 @@
         if (canEditMeta && !order.info.fulfilled) {
             metadataBlock += "<button class='btn btn-primary' type='submit'>Update Metadata</button>"
         } else {
+            // messy control flow idc 
             if (order.info.fulfilled) {
-                $("#actions").hide();
+                if (canEditMeta) {
+                    // Distinguish whether order has review from user already
+                    // For now we just set the thing to a create review button
+                    if (order.review) {
+                        // if a review exists we add an 'edit review' button instead
+                        $("#actions").html(`<a class='me-2' href='review/edit/?orderID=${orderID}'><button class='btn btn-success'>Edit Review</button></a><button id='delReviewButton' class='mx-2 btn btn-danger'>Delete Review</button>`);
+                    } else {
+                        $("#actions").html(`<a href='review/?orderID=${orderID}'><button class='btn btn-success'>Create Review</button></a>`);
+                    }
+                    
+                } else {
+
+                    $("#actions").hide();
+                }
+                
             } else {
                 $("#fulfillOrderButton").hide();
             }
@@ -170,6 +185,26 @@
             let text = await res.text();
             console.log(text);
             window.location = "/app/orders/"
+        } else {
+            let err = await res.text();
+            if (res.status === 401 && err === "Session timed out. Please log in again.") {
+                localStorage.clear();
+                window.location = "/app/login/";
+            }
+            toastr.error(err, "Error");
+        }
+    })
+
+    $("#delReviewButton").click(async (e) => {
+        e.preventDefault();
+        if (!confirm("Are you sure you want to delete your review?")) {
+            return;
+        }
+        let res = await fetch(`/api/reviews/delete/?reviewID=${order.review.review_id}`, {
+            method:"DELETE"
+        })
+        if (res.status === 200) {
+            window.location = "/app/orders/";
         } else {
             let err = await res.text();
             if (res.status === 401 && err === "Session timed out. Please log in again.") {

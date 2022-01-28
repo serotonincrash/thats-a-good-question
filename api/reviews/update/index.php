@@ -1,5 +1,5 @@
 <?php
-
+mysqli_report(MYSQLI_REPORT_ALL);
 require_once('../../config.php');
 require_once("../../session_start.php");
 if ($_SERVER['REQUEST_METHOD'] !== "PUT") {
@@ -34,16 +34,12 @@ if (strval($review_id) !== strval(intval($review_id))) {
 }
 
 // Get new review body and rating
-if (!isset($_POST['body']) || !isset($_GET['rating'])) {
+if (!isset($_POST['body']) || !isset($_POST['rating'])) {
     http_response_code(400);
     die("Order ID not set!");
 }
-$rating = $_GET['rating'];
+$rating = $_POST['rating'];
 $body =  $_POST['body'];
-if (strval($order_id) !== strval(intval($order_id))) {
-    http_response_code(400);
-    die("Order ID not an integer!");
-}
 if (strval($rating) !== strval(intval($rating))) {
     http_response_code(400);
     die("Order ID not an integer!");
@@ -59,7 +55,7 @@ if (strlen($body) > 256) {
 }
 
 // Check if review belongs to the user
-$checkQuery = $con->prepare("SELECT orders.user_id as user_id FROM reviews INNER JOIN orders on reviews.order_id = orders.order_id WHERE reviews.review_id = ?");
+$checkQuery = $con->prepare("SELECT orders.buyer_id as user_id FROM reviews INNER JOIN (orders INNER JOIN users on orders.buyer_id = users.user_id) on reviews.order_id = orders.order_id WHERE reviews.review_id = ?");
 $checkQuery->bind_param("i", $review_id);
 if ($checkQuery->execute()) {
     if ($result = $checkQuery->get_result()) {

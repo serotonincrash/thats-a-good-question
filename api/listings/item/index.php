@@ -53,7 +53,7 @@ if ($invQuery->execute()) {
   }
 }
 
-$reviewQuery = $con->prepare("SELECT reviews.review_id, reviews.body, reviews.rating, users.username FROM reviews INNER JOIN (users INNER JOIN orders ON orders.buyer_id = users.user_id) ON reviews.order_id = orders.order_id WHERE orders.item_id = ?");
+$reviewQuery = $con->prepare("SELECT orders.order_id, reviews.review_id, reviews.body, reviews.rating, users.username FROM reviews INNER JOIN (users INNER JOIN orders ON orders.buyer_id = users.user_id) ON reviews.order_id = orders.order_id WHERE orders.item_id = ?");
 $reviewQuery->bind_param("i", $item_id);
 if ($reviewQuery->execute()) {
   if ($result = $reviewQuery->get_result()) {

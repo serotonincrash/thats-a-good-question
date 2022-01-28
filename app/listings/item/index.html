@@ -27,6 +27,9 @@
       <div id='customisations'></div>
       <button class='btn btn-primary'>Place Order</button>
     </form>
+
+    <h4 class = 'my-4'>Reviews</h4>
+    <div id='reviewBlock'></div>
   </div>
 
 </body>
@@ -100,4 +103,23 @@
       toastr.error(err, "Error");
     }
   })
+  
+  if (info.reviews) {
+    let reviewBlock = "<hr class='solid'>";
+    for (let review of info.reviews) {
+      reviewBlock += `
+      <div class = 'my-2'>
+        
+        <h5>Review from ${review.username} for order ${review.order_id}</h5>
+        <p class = 'text-muted'>${review.rating}/5</p>
+        <p>${review.body}</p>
+      <div>
+      `
+      reviewBlock += `<hr class='solid'>`;
+    }
+    console.log(reviewBlock)
+    $("#reviewBlock").html(reviewBlock);
+  } else {
+    $("#reviewBlock").text("No reviews available!")
+  }
 </script>
