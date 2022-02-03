@@ -8,7 +8,7 @@
         die();
     }
 
-    if (count($_SESSION) === 0) {
+    if (!isset($_SESSION['user_id'])) {
         http_response_code(401);
         die("You need to be logged in to do that!");
     }

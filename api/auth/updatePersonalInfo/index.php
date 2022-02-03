@@ -7,7 +7,7 @@
     }
     require_once("../../session_start.php");
 
-    if (count($_SESSION) === 0 || !$_SESSION || !isset($_SESSION['role']) || !isset($_SESSION['user_id'])) {
+    if (!isset($_SESSION['user_id']) || !$_SESSION || !isset($_SESSION['role']) || !isset($_SESSION['user_id'])) {
         http_response_code(401);
         die("You're not logged in!");
     }

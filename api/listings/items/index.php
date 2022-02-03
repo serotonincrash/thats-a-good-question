@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] !== "GET") {
 
 // assert that user is logged in - regen session id
 require_once("../../session_handler.php");
-$infoQuery = $con->prepare("SELECT item_id, name, description, price FROM items");
+$infoQuery = $con->prepare("SELECT item_id, name, description, price, created_date FROM items");
 $data = [];
 if ($infoQuery->execute()) {
     if ($result = $infoQuery->get_result()) {

@@ -96,7 +96,7 @@
       window.location = "/";
     } else {
       let err = await res.text();
-      if (res.status === 401 && error === "Session timed out. Please log in again.") {
+      if (res.status === 401 && err === "Session timed out. Please log in again.") {
         localStorage.clear();
         window.location = "/app/login/";
       }
@@ -117,7 +117,6 @@
       `
       reviewBlock += `<hr class='solid'>`;
     }
-    console.log(reviewBlock)
     $("#reviewBlock").html(reviewBlock);
   } else {
     $("#reviewBlock").text("No reviews available!")

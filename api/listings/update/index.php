@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] !== "PUT") {
     http_response_code(405);
     die();
 }
-if (count($_SESSION) === 0) {
+if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
     die("You need to be logged in to do that!");
 }

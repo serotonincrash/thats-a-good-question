@@ -15,8 +15,11 @@
 <body>
     <div id='navbar'></div>
     <div class='container-fluid'>
-
+        <h1>
+            tagq Inventory
+        </h1>
         <a href="create/" class='btn btn-primary my-2 '>Create new item</a>
+        
         <table id='inventoryTable' class='w-50 table table-striped table-borderless'>
             <thead>
                 <th scope="col">Part ID</th>
@@ -39,18 +42,17 @@
             "closeButton": false,
             "positionClass": "toast-bottom-center",
             "preventDuplicates": true
-        }
+        }  
         let role = localStorage.getItem("role");
         if (!role) {
             window.location = "/app/login/"
         }
 
-        let admin = role === "Admin" ? false : true;
+        let admin = role === "Admin" ? true : false;
 
         let res = await fetch('/api/inventory/');
         if (res.status === 200) {
-            let data = await res.json()
-            toastr.success("Data retrieved successfully!", "Success");
+            let data = await res.json();
             if (data.length > 0) {
                 let entry = "";
                 for (var part of data) {
@@ -70,7 +72,7 @@
                 }
                 $('#inventoryTable tbody').html(entry);
             } else {
-                $("#inventoryTable").hide();
+                $("#inventoryTable").html("<h2>No items available!</h2>");
             }
         } else {
             let error = await res.text();

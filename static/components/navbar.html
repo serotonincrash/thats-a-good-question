@@ -17,8 +17,11 @@
 
     if (role === "Vendor") {
       $("#inventory").toggle();
+
     } else if (role === "User") {
-      $("#reviews").toggle();
+      $("#inventory").remove();
+    } else if (role === "Admin") {
+      $("#inventory").toggle();
     }
 
 
@@ -38,9 +41,6 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" style='display:none;' id='inventory' href="/app/inventory/">Inventory</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" style='display:none;' id='reviews' href="/app/reviews/">Reviews</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id='orders' href="/app/orders/">Orders</a>

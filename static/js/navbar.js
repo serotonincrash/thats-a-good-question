@@ -1,1 +1,1 @@
-$("#navbar").load('/static/components/navbar.html')
+$("#navbar").load('/static/components/navbar.html');
