@@ -89,28 +89,32 @@
 
 
 
-    let metadataBlock = "";
+    
     if (order.metadata.length === 0) {
         metadataBlock = "No metadata!"
     } else {
         let canEditMeta = (localStorage.getItem("role") === "Vendor" || localStorage.getItem("role") === "Admin") ? false : true;
         for (let meta of order.metadata) {
+            let metaSelect = "";
             if (canEditMeta) {
                 // person is user, allow them to change the fields and stuff
                 if (order.info.fulfilled) {
-                    metadataBlock += `<div class='mb-2'><label for='metadata[]' class='form-label'>${meta.metadata_name}:</label> <input id='${meta.metadata_id}'class = 'form-control' name=metadata[] disabled value='${meta.value}'></div>`
+                    metaSelect = `<div class='mb-2'><label for='metadata[]' class='form-label'>${meta.metadata_name}:</label> <input id='${meta.metadata_id}' class = 'form-control' name=metadata[] disabled ></div>`
                 } else {
-                    metadataBlock += `<div class='mb-2'><label for='metadata[]' class='form-label'> ${meta.metadata_name}:</label> <input id='${meta.metadata_id}' class = 'form-control' name=metadata[] value='${meta.value}'></div>`
+                    metaSelect = `<div class='mb-2'><label for='metadata[]' class='form-label'> ${meta.metadata_name}:</label> <input id='${meta.metadata_id}' class = 'form-control' name=metadata[] ></div>`
                 }
                 
             } else {
-                metadataBlock += `<div class='mb-2'><label for='metadata[]' class='form-label'>${meta.metadata_name}:</label> <input id='${meta.metadata_id}'class = 'form-control' name=metadata[] disabled value='${meta.value}'></div>`
+                metaSelect = `<div class='mb-2'><label for='metadata[]' class='form-label'>${meta.metadata_name}:</label> <input id='${meta.metadata_id}' class = 'form-control' name=metadata[] disabled></div>`
             }
-
+            let metaHTML = $.parseHTML(metaSelect);
+            $("#metadata").append(metaHTML);
+            
+            $(`#${meta.metadata_id}`).val(he.decode(meta.value.toString()));
         }
 
         if (canEditMeta && !order.info.fulfilled) {
-            metadataBlock += "<button class='btn btn-primary' type='submit'>Update Metadata</button>"
+            $("#metadata").append("<button class='btn btn-primary' type='submit'>Update Metadata</button>");
         } else {
             // messy control flow idc 
             if (order.info.fulfilled) {
@@ -137,8 +141,7 @@
 
     }
 
-    $("#metadata").html(metadataBlock);
-
+    
 
     $("#metadata").submit(async (e) => {
         e.preventDefault();
