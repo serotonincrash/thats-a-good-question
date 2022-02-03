@@ -29,14 +29,14 @@ $price = htmlspecialchars($_REQUEST["price"], ENT_QUOTES);
 $item_id = $_REQUEST['item_id'];
 
 // Length check
-if (strlen($item_name) > 128) {
+if (mb_strlen($item_name) > 128) {
     http_response_code(400);
-    die("Your item name should be less than 128 characters long!");
+    die("Your item name is too long!");
 }
 
-if (strlen($description) > 1024) {
+if (mb_strlen($description) > 1024) {
     http_response_code(400);
-    die("Your description should be less than 1024 characters long!");
+    die("Your description is too long!");
 }
 
 $itemQuery = $con->prepare('SELECT * FROM items WHERE item_id = ?');

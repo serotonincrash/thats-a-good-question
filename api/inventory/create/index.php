@@ -37,15 +37,14 @@
     http_response_code(400);
     die("Stock is not a number!");
   }
-
-  if (strlen($sku) > 64) {
+  if (mb_strlen($sku) > 64) {
     http_response_code(400);
-    die("Your SKU should be less than 64 characters long!");
+    die("Your SKU is too long!");
   }
 
-  if (strlen($part_name) > 64) {
+  if (mb_strlen($part_name) > 64) {
     http_response_code(400);
-    die("Your part name should be less than 64 characters long!");
+    die("Your part name is too long!");
   }
   
   $createStatement = $con->prepare("INSERT INTO tagq.inventory(part_name, sku, stock) VALUES (?,?,?)");

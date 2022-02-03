@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS `tagq`.`users` (
   `username` VARCHAR(32) NOT NULL,
   `password` TEXT NOT NULL,
   `role` ENUM("User", "Vendor", "Admin") NOT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) ,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) )
@@ -57,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `tagq`.`items` (
   `description` VARCHAR(1024) NOT NULL,
   `price` INT(32) NOT NULL,
   `vendor_id` INT NOT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`item_id`),
   INDEX `listing_user_id_idx` (`vendor_id` ASC) ,
   CONSTRAINT `listing_user_id`
@@ -92,6 +94,8 @@ CREATE TABLE IF NOT EXISTS `tagq`.`orders` (
   `buyer_id` INT NOT NULL,
   `item_id` INT NOT NULL,
   `fulfilled` TINYINT NOT NULL,
+  `ordered_at` DATETIME NOT NULL DEFAULT NOW(),
+  `fulfilled_at` DATETIME NULL,
   PRIMARY KEY (`order_id`),
   INDEX `order_item_id_idx` (`item_id` ASC) ,
   INDEX `order_buyer_id_idx` (`buyer_id` ASC) ,
@@ -129,6 +133,7 @@ CREATE TABLE IF NOT EXISTS `tagq`.`reviews` (
   `order_id` INT NOT NULL,
   `body` VARCHAR(256) NOT NULL,
   `rating` INT NOT NULL,
+  `created_date` DATETIME NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`review_id`),
   INDEX `review_order_id_idx` (`order_id` ASC) ,
   UNIQUE INDEX `order_id_UNIQUE` (`order_id` ASC) ,

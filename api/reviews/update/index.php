@@ -49,7 +49,7 @@ if ($rating < 0 || $rating > 5) {
     http_response_code(400);
     die("Rating must be between 1 and 5!");
 }
-if (strlen($body) > 256) {
+if (mb_strlen($body) > 256) {
     http_response_code(400);
     die("Review body too long!");
 }

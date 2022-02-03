@@ -35,9 +35,9 @@ if (!isset($_GET['itemID'])) {
 }
 
 foreach ($metadata as $value) {
-    if (strlen($value) > 255) {
+    if (mb_strlen($value) > 255) {
         http_response_code(400);
-        die("Your metadata input should be less than 255 characters!");
+        die("One of your metadata inputs are too long!");
     }
 }
 $item_id = $_GET['itemID'];

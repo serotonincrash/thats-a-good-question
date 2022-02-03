@@ -16,9 +16,13 @@
         http_response_code(400);
         die("One of the the fields is blank!");
     }
-
+    function remove_specialchars($string) {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+     
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+     }
     $email = htmlspecialchars($_POST["email"], ENT_QUOTES);
-    $username = htmlspecialchars($_POST["username"], ENT_QUOTES);
+    $username = htmlspecialchars(remove_specialchars($_POST["username"]), ENT_QUOTES);
     $password = $_POST["password"];
     $passwordConfirm = $_POST["passwordConfirm"];
     $role = $_POST["role"];
@@ -46,19 +50,19 @@
     }
     
     // Length checks
-    if (strlen($email) > 128) {
+    if (mb_strlen($email) > 128) {
         http_response_code(400);
-        die("Your email is too long! It should be less than 128 characters.");
+        die("Your email is too long!.");
     }
     
-    if (strlen($username) > 32) {
+    if (mb_strlen($username) > 32) {
         http_response_code(400);
         die("Your username is too long!");
     }
     
-    if (strlen($password) > 72) {
+    if (mb_strlen($password) > 72) {
         http_response_code(400);
-        die("Your password should be less than 72 characters long!");
+        die("Your password is too long!");
     }
 
     // Role check. No role other than user and vendor should be allowed
@@ -75,30 +79,30 @@
         }
 
         // Signup is for user, store personal information
-        $firstName = htmlspecialchars($_POST["firstName"], ENT_QUOTES);
-        $lastName = htmlspecialchars($_POST["lastName"], ENT_QUOTES);
+        $firstName = htmlspecialchars(remove_specialchars($_POST["firstName"]), ENT_QUOTES);
+        $lastName = htmlspecialchars(remove_specialchars($_POST["lastName"]), ENT_QUOTES);
         $address = htmlspecialchars($_POST["address"], ENT_QUOTES);
         $phone = htmlspecialchars($_POST["phoneNumber"], ENT_QUOTES);
         $postal = htmlspecialchars($_POST["postalCode"], ENT_QUOTES);
 
         // Length checks
-        if (strlen($firstName) > 32) {
+        if (mb_strlen($firstName) > 32) {
             http_response_code(400);
             die("Your first name should be less than 32 characters long!");
         }
-        if (strlen($lastName) > 32) {
+        if (mb_strlen($lastName) > 32) {
             http_response_code(400);
             die("Your last name should be less than 32 characters long!");
         }
-        if (strlen($address) > 200) {
+        if (mb_strlen($address) > 200) {
             http_response_code(400);
             die("Your address should be less than 200 characters long!");
         }
-        if (strlen($postal) > 16) {
+        if (mb_strlen($postal) > 16) {
             http_response_code(400);
             die("Your first name should be less than 16 characters long!");
         }
-        if (strlen($phone) > 32) {
+        if (mb_strlen($phone) > 32) {
             http_response_code(400);
             die("Your phone number should be less than 32 characters long!");
         }

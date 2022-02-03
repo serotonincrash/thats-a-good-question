@@ -28,20 +28,20 @@ $metadata = $_REQUEST["metadata"];
 $price = htmlspecialchars($_REQUEST["price"], ENT_QUOTES);
 
 // Length check
-if (strlen($item_name) > 128) {
+if (mb_strlen($item_name) > 128) {
     http_response_code(400);
-    die("Your item name should be less than 128 characters long!");
+    die("Your item name is too long!");
 }
 
-if (strlen($description) > 1024) {
+if (mb_strlen($description) > 1024) {
     http_response_code(400);
-    die("Your description should be less than 1024 characters long!");
+    die("Your description is too long!");
 }
 
 foreach ($metadata as $name) {
-    if (strlen($name) > 64) {
+    if (mb_strlen($name) > 64) {
         http_response_code(400);
-        die("Your metadata names should all be less than 64 characters long!");
+        die("One or more of your metadata names are too long!");
     }
 }
 $material_values = array_count_values($materials);

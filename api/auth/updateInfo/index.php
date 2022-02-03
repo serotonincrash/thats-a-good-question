@@ -24,8 +24,14 @@
         die("One of the the fields is blank!");
     }
 
+    function remove_specialchars($string) {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+     
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+     }
+
     // apfd extension parses body into $_POST
-    $username = htmlspecialchars($_POST["username"], ENT_QUOTES);
+    $username = htmlspecialchars(remove_specialchars($_POST["username"]), ENT_QUOTES);
     $password = $_POST["password"];
     $newPassword = $_POST["newPassword"];
     $passwordConfirm = $_POST["confirmPassword"];
@@ -70,12 +76,12 @@
     }
 
     // Length bounds checking 
-    if (strlen($username) > 32) {
+    if (mb_strlen($username) > 32) {
         http_response_code(400);
         die("Your username is too long!");
     }
     
-    if (strlen($newPassword) > 72) {
+    if (mb_strlen($newPassword) > 72) {
         http_response_code(400);
         die("Your password should be less than 72 characters long!");
     }

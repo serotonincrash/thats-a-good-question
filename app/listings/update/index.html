@@ -92,13 +92,15 @@
   }
 
   for (let chosenMaterial of info.materials) {
-
+    console.log(chosenMaterial)
     for (let x of [...Array(chosenMaterial.amount).keys()]) {
+      
       let id = `material${matIndex}`;
-      let matSelect = `<div id='${matIndex}' class='mt-2'><label class = 'me-2' for='materials[]'>Material ${matIndex}:</label><input disabled value=${chosenMaterial.name} disabled placeholder='Material name'></div>`;
+      let matSelect = `<div id='${matIndex}' class='mt-2'><label class = 'me-2' for='materials[]'>Material ${matIndex}:</label><input id='input${matIndex}' disabled value="${chosenMaterial.name}" disabled placeholder='Material name'></div>`;
       let matHTML = $.parseHTML(matSelect);
       $("#materialsUsed").append(matHTML);
       $("#" + id).val(chosenMaterial.part_id).change();
+      $("#input" + id).val(chosenMaterial.name).change();
       matIndex += 1;
     }
 
@@ -113,6 +115,7 @@
     custIndex += 1;
   }
 
+  console.log(info);
   $('#updateListingForm').submit(async (e) => {
     e.preventDefault();
     const formData = new FormData(document.querySelector('#updateListingForm'));
