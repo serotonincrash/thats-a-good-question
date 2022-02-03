@@ -130,8 +130,9 @@
                             <td class='px-2 py-2' >${listing.name}</td>
                             <td class='px-2 py-2'>${listing.price}</td>
                             <td class='px-2 py-2'>${listing.created_date}</td>`;
-        if (localStorage.getItem("")) {
-
+        if (localStorage.getItem("userId")) {
+          // user is logged in - add order button
+          entry = entry + `<td class='px-2 py-2'><a class='btn btn-primary me-2' href=item/?itemID=${listing.item_id}>Order</a></td></tr>`
         }
       }
       $('#listingTable tbody').html(entry);

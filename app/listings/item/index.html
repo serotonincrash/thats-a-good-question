@@ -104,7 +104,7 @@
     }
   })
   
-  if (info.reviews) {
+  if (info.reviews.length > 0) {
     let reviewBlock = "<hr class='solid'>";
     for (let review of info.reviews) {
       reviewBlock += `
@@ -119,6 +119,6 @@
     }
     $("#reviewBlock").html(reviewBlock);
   } else {
-    $("#reviewBlock").text("No reviews available!")
+    $("#reviewBlock").html("<h5>No reviews available!</h5>")
   }
 </script>
