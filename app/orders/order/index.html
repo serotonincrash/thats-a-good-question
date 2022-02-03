@@ -180,7 +180,6 @@
             });
 
         if (res.status === 200) {
-            let text = await res.text();
             window.location = "/app/orders/"
         } else {
             let err = await res.text();
