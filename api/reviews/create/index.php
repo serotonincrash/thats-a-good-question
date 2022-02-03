@@ -17,7 +17,7 @@ if (!isset($_GET['orderID']) || !isset($_POST['body']) || !isset($_POST['rating'
 }
 $order_id = $_GET["orderID"];
 $rating = $_POST['rating'];
-$body =  htmlspecialchars($_POST['body']);
+$body =  htmlspecialchars($_POST['body'], ENT_QUOTES);
 if (strval($order_id) !== strval(intval($order_id))) {
     http_response_code(400);
     die("Order ID not an integer!");
