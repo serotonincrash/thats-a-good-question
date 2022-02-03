@@ -76,7 +76,7 @@
       
       let metaHTML = $.parseHTML(metaSelect);
       $("#customisations").append(metaHTML);
-      $(`#${metadata.id}`).attr("placeholder", metadata.metadata_name);
+      $(`#${metadata.id}`).attr("placeholder", he.decode(metadata.metadata_name));
     }
   }
   $("#orderForm").submit(async (e) => {
