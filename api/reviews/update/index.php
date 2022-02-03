@@ -39,7 +39,7 @@ if (!isset($_POST['body']) || !isset($_POST['rating'])) {
     die("Order ID not set!");
 }
 $rating = $_POST['rating'];
-$body =  $_POST['body'];
+$body =  htmlspecialchars($_POST['body']);
 if (strval($rating) !== strval(intval($rating))) {
     http_response_code(400);
     die("Order ID not an integer!");
