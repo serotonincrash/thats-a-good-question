@@ -33,7 +33,7 @@ if (strval($review_id) !== strval(intval($review_id))) {
 }
 
 // Check if review belongs to the user
-$checkQuery = $con->prepare("SELECT orders.user_id as user_id FROM reviews INNER JOIN orders on reviews.order_id = orders.order_id WHERE reviews.review_id = ?");
+$checkQuery = $con->prepare("SELECT orders.buyer_id as user_id FROM reviews INNER JOIN orders on reviews.order_id = orders.order_id WHERE reviews.review_id = ?");
 $checkQuery->bind_param("i", $review_id);
 if ($checkQuery->execute()) {
     if ($result = $checkQuery->get_result()) {
