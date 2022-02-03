@@ -94,24 +94,25 @@
     $("#email").val(localStorage.getItem("email"));
     if (localStorage.getItem("role") === "User") {
         $("#personalInfoSection").show();
+        let res = await fetch("/api/auth/userPersonalInfo");
+        if (res.status === 200) {
+            let data = await res.json();
+            $("#firstName").val(data.first_name);
+            $("#lastName").val(data.last_name);
+            $("#address").val(data.address);
+            $("#postalCode").val(data.postal_code);
+            $("#phoneNumber").val(data.phone_number);
+        } else {
+            let error = res.text();
+            if (res.status === 401 && error === "Session timed out. Please log in again.") {
+                localStorage.clear();
+                window.location = "/app/login/";
+            }
+            toastr.error(error, "Error");
+        }
     }
 
-    let res = await fetch("/api/auth/userPersonalInfo");
-    if (res.status === 200) {
-        let data = await res.json();
-        $("#firstName").val(data.first_name);
-        $("#lastName").val(data.last_name);
-        $("#address").val(data.address);
-        $("#postalCode").val(data.postal_code);
-        $("#phoneNumber").val(data.phone_number);
-    } else {
-        let error = res.text();
-        if (res.status === 401 && error === "Session timed out. Please log in again.") {
-            localStorage.clear();
-            window.location = "/app/login/";
-        }
-        toastr.error(error, "Error");
-    }
+
 
 
 
