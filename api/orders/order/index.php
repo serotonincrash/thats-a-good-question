@@ -21,7 +21,7 @@ if (!isset($_GET['orderID'])) {
     die("No item ID was specified!");
 }
 $order_id = $_GET['orderID'];
-$orderQuery = $con->prepare("SELECT orders.fulfilled_at, orders.ordered_at, orders.fulfilled, users.username, orders.order_id, orders.item_id FROM orders INNER JOIN users ON orders.buyer_id = users.user_id WHERE order_id = ?");
+$orderQuery = $con->prepare("SELECT orders.fulfilled_at, orders.buyer_id, orders.ordered_at, orders.fulfilled, users.username, orders.order_id, orders.item_id FROM orders INNER JOIN users ON orders.buyer_id = users.user_id WHERE order_id = ?");
 $orderQuery->bind_param("i", $order_id);
 
 if (!$orderQuery->execute()) {
@@ -41,6 +41,24 @@ if ($result = $orderQuery->get_result()) {
     die("An error occured whilst querying the database.");
 }
 
+
+// Grab and return the buyer's personal info
+$infoQuery = $con->prepare("SELECT * FROM personal_info WHERE user_id = ?");
+$infoQuery->bind_param("i", $order['info']['buyer_id']);
+if (!$infoQuery->execute()) {
+    http_response_code(500);
+    die("An error occured whilst querying the database.");
+} 
+if ($result = $infoQuery->get_result()) {
+    $metadata = [];
+    while ($row = $result->fetch_assoc()) {
+        $metadata[] = $row;
+    }
+    $order['user_info'] = $metadata;
+} else {
+    http_response_code(500);
+    die("An error occured whilst querying the database.");
+}
 $metaQuery = $con->prepare("SELECT order_metadata.value, metadata.metadata_name, metadata.id as metadata_id FROM metadata INNER JOIN order_metadata ON order_metadata.metadata_id = metadata.id WHERE order_metadata.order_id = ?");
 $metaQuery->bind_param("i", $order_id);
 if (!$metaQuery->execute()) {

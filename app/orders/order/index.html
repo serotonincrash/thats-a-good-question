@@ -21,16 +21,26 @@
         <h5 class='fst-italic' id='boughtOn'></h5>
         <h5 class='fst-italic' id='fulfilledAt'></h5>
         <h5 class='fst-italic' id='price'></h5>
-        
-        <div class='my-4' id='orderInfo'>
+        <hr>
+        <div class='mb-4' id='orderInfo'>
             <h2>Order Info</h2>
             <form id='metadata'></form>
 
-            <div id='actions'>
-                <h4>Actions</h4>
-                <button class='btn btn-success' id='fulfillOrderButton'>Mark Order as Recieved</button>
-                <button class='btn btn-danger' id='delOrderButton'>Cancel Order</button>
-            </div>
+            
+        </div>
+        <hr>
+        <div class='mb-4' id='fulfillmentInfo'>
+            <h2>Ship To</h2>
+            <p id='name'></p>
+            <p id='address'></p>
+            <p id='postalCode'></p>
+            <p id='phoneNumber'></p>
+        </div>
+            <hr>
+        <div id='actions'>
+            <h4>Actions</h4>
+            <button class='btn btn-success' id='fulfillOrderButton'>Mark Order as Recieved</button>
+            <button class='btn btn-danger' id='delOrderButton'>Cancel Order</button>
         </div>
     </div>
 
@@ -67,6 +77,11 @@
     $("#buyer").text(`Bought by ${order.info.username}`);
     $("#price").text(`Bought at $${order.item.price}`);
 
+    let user_info = order.user_info[0];
+    $("#name").text(`${user_info.first_name} ${user_info.last_name}`);
+    $("#address").text(`${user_info.address}`);
+    $("#postalCode").text(`${user_info.postal_code}`);
+    $("#phoneNumber").text(`${user_info.phone_number}`);
     if (order.info.fulfilled_at) {
         $("#fulfilledAt").text(`Fulfilled on ${order.info.fulfilled_at}`)
     }
