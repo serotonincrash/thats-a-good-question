@@ -49,15 +49,34 @@ if ($checkQuery->execute()) {
     if ($result = $checkQuery->get_result()) {
         if ($result->num_rows > 0) {
             // Technically only one review should exist but just check above 0
-            http_response_code(500);
+            http_response_code(403);
             die("You've already reviewed this item!");
         }
+
     }
 } else {
     http_response_code(500);
     die("An error occured whilst querying the database.");
 }
 
+$fulfilledQuery = $con->prepare("SELECT orders.fulfilled FROM orders WHERE order_id = ?");
+$fulfilledQuery->bind_param("i", $order_id);
+if ($fulfilledQuery->execute()) {
+    if ($result = $fulfilledQuery->get_result()) {
+        if ($result->num_rows > 0) {
+            // Order id is unique, there should only be one result
+            $order = $result->fetch_assoc();
+            if (!$order['fulfilled']) {
+                http_response_code(403);
+                die("You can't review an item you haven't marked as recieved!");
+            }
+        }
+
+    }
+} else {
+    http_response_code(500);
+    die("An error occured whilst querying the database.");
+}
 // Create review
 $createQuery = $con->prepare("INSERT INTO reviews (order_id, body, rating) VALUES (?,?,?)");
 $createQuery->bind_param("isi", $order_id, $body, $rating);
@@ -67,6 +86,3 @@ if ($createQuery->execute()) {
     http_response_code(500);
     die("An error occured whilst querying the database.");
 }
-?>
-
-
