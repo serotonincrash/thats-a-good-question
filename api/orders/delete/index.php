@@ -18,7 +18,7 @@ if (!isset($_SESSION['role'])) {
 
 $role = $_SESSION['role'];
 
-if ($role !== 'User' && $role !== 'Vendor') {
+if ($role !== 'User' && $role !== 'Vendor' && $role !== "Admin") {
     http_response_code(403);
     die("You're not allowed to do this!");
 }
