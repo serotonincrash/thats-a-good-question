@@ -7,7 +7,7 @@
         die();
     }
     
-    if (!isset($_SESSION['user_id'])) {
+    if (isset($_SESSION['user_id'])) {
         http_response_code(403);
         die("You're already logged in!");
     }

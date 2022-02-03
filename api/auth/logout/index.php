@@ -2,7 +2,7 @@
 
     require_once("../../session_start.php");
 
-    if (isset($_SESSION) && count($_SESSION) > 0) {
+    if (isset($_SESSION['user_id'])) {
         session_destroy();
         die("Logged out successfully.");
     } else {
