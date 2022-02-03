@@ -22,8 +22,8 @@
                 <textarea id='body' type="text" class='form-control' placeholder="Your review here" name='body'></textarea>
             </div>
             <div class="mb-3">
-                <label id='rating' for="rating" class="form-label">Rating</label>
-                <select class='form-control' name='rating'>
+                <label  for="rating" class="form-label">Rating</label>
+                <select class='form-control' id='rating' name='rating'>
                     <option value=1>1</option>
                     <option value=2>2</option>
                     <option value=3>3</option>
@@ -64,7 +64,7 @@
     let reviewID = order.review.review_id;
     $("#title").text(`Editing review for ${order.item.name}`);
     $("#body").val(order.review.body);
-    $("#rating").val(order.review.rating);
+    $("#rating").val(order.review.rating).change();
     $("#editReviewForm").submit(async (e) => {
         e.preventDefault();
         const formData = new FormData(document.querySelector('#editReviewForm'));
