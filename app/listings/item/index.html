@@ -8,6 +8,7 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
   <script src="/static/js/he.js"></script>
+  <script src="/static/js/he.js"></script>
   <link href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css' rel='stylesheet'>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
@@ -29,7 +30,7 @@
       <button class='btn btn-primary'>Place Order</button>
     </form>
 
-    <h4 class = 'my-4'>Reviews</h4>
+    <h4 class='my-4'>Reviews</h4>
     <div id='reviewBlock'></div>
   </div>
 
@@ -73,7 +74,7 @@
   } else {
     for (let metadata of info.metadata) {
       let metaSelect = `<div class='my-2'><input id = '${metadata.id}'><div>`
-      
+
       let metaHTML = $.parseHTML(metaSelect);
       $("#customisations").append(metaHTML);
       $(`#${metadata.id}`).attr("placeholder", he.decode(metadata.metadata_name));
@@ -106,7 +107,7 @@
       toastr.error(err, "Error");
     }
   })
-  
+
   if (info.reviews.length > 0) {
     let reviewBlock = "<hr class='solid'>";
     for (let review of info.reviews) {
