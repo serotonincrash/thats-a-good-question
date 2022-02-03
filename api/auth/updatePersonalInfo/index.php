@@ -38,9 +38,9 @@
     $password = $_POST['password'];
     $firstName = htmlspecialchars(remove_specialchars($_POST["firstName"]), ENT_QUOTES);
     $lastName = htmlspecialchars(remove_specialchars($_POST["lastName"]), ENT_QUOTES);
-    $address = htmlspecialchars(remove_specialchars($_POST["address"]), ENT_QUOTES);
-    $phone = htmlspecialchars(remove_specialchars($_POST["phoneNumber"]), ENT_QUOTES);
-    $postal = htmlspecialchars(remove_specialchars($_POST["postalCode"]), ENT_QUOTES);
+    $address = htmlspecialchars($_POST["address"], ENT_QUOTES);
+    $phone = htmlspecialchars($_POST["phoneNumber"], ENT_QUOTES);
+    $postal = htmlspecialchars($_POST["postalCode"], ENT_QUOTES);
     
     // Length checks
     if (mb_strlen($firstName) > 32) {
