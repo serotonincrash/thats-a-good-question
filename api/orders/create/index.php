@@ -69,6 +69,7 @@ if (!$orderQuery->execute()) {
 // Create metadata
 // bulk insert...
 // I HATE PHP
+
 $order_id = $orderQuery->insert_id;
 $types = str_repeat("isi", count($metadata));
 $question = str_repeat("(?,?,?),", count($metadata) - 1) . "(?,?,?)";
