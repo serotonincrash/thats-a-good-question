@@ -96,11 +96,11 @@
     for (let x of [...Array(chosenMaterial.amount).keys()]) {
       
       let id = `material${matIndex}`;
-      let matSelect = `<div id='${matIndex}' class='mt-2'><label class = 'me-2' for='materials[]'>Material ${matIndex}:</label><input id='input${matIndex}' disabled value="${chosenMaterial.name}" disabled placeholder='Material name'></div>`;
+      let matSelect = `<div id='${matIndex}' class='mt-2'><label class = 'me-2' for='materials[]'>Material ${matIndex}:</label><input id='input${matIndex}' disabled placeholder='Material name'></div>`;
       let matHTML = $.parseHTML(matSelect);
       $("#materialsUsed").append(matHTML);
       $("#" + id).val(chosenMaterial.part_id).change();
-      $("#input" + id).val(chosenMaterial.name).change();
+      $(`#input${matIndex}`).val(chosenMaterial.name).change();
       matIndex += 1;
     }
 
@@ -109,9 +109,10 @@
   // metadata handling 
   let custIndex = 1;
   for (let metadata of info.metadata) {
-    let custSelect = `<div id='${custIndex}' class='mt-2'><label class = 'me-2' for='metadata'>Customisation Name:</label><input disabled value=${metadata.metadata_name} disabled placeholder='Customisation name'></div>`
+    let custSelect = `<div id='${custIndex}' class='mt-2'><label class = 'me-2' for='metadata'>Customisation Name:</label><input id='cust${custIndex}' disabled placeholder='Customisation name'></div>`
     let custHTML = $.parseHTML(custSelect);
     $("#customisations").append(custHTML);
+    $(`#cust${custIndex}`).val(metadata.metadata_name).change();
     custIndex += 1;
   }
 

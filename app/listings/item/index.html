@@ -7,6 +7,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
+  <script src="/static/js/he.js"></script>
   <link href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css' rel='stylesheet'>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
@@ -63,18 +64,20 @@
     toastr.error(error, "Error");
   }
 
-  $("#itemTitle").text(`Viewing ${info.info[0].name}`);
-  $("#itemDescription").text(info.info[0].description);
-  $("#price").text(`$${info.info[0].price}`);
+  $("#itemTitle").text(`Viewing ${he.decode(info.info[0].name)}`);
+  $("#itemDescription").text(he.decode(info.info[0].description));
+  $("#price").text(`$${he.decode(info.info[0].price.toString())}`);
 
   if (!info.metadata) {
     $("#customisations").html("<p>No customisations available.</p>")
   } else {
     for (let metadata of info.metadata) {
-      let metaSelect = `<div class='my-2'><input id = '${metadata.id}' placeholder='${metadata.metadata_name}'><div>`
+      let metaSelect = `<div class='my-2'><input id = '${metadata.id}'><div>`
+      
       let metaHTML = $.parseHTML(metaSelect);
       $("#customisations").append(metaHTML);
-    }
+      $(`#${metadata.id}`).attr("placeholder", metadata.metadata_name);
+        }
   }
   $("#orderForm").submit(async (e) => {
     e.preventDefault();
