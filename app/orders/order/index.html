@@ -230,7 +230,7 @@
         if (res.status === 200) {
             let text = await res.text();
             console.log(text)
-            //window.location = "/app/orders/";
+            window.location = "/app/orders/";
         } else {
             let err = await res.text();
             if (res.status === 401 && err === "Session timed out. Please log in again.") {
