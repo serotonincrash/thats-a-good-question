@@ -80,7 +80,7 @@
 
       $('#listingTable tbody').html(entry);
     } else {
-      $('#listingTable').hide();
+      $('#listingTable').html("<h2>You haven't created any listings!</h2>");
     }
 
     $(".deleteButton").click(async (e) => {
@@ -137,7 +137,7 @@
       }
       $('#listingTable tbody').html(entry);
     } else {
-      $('#listingTable').hide();
+      $('#listingTable').html("<h2>No vendors have created any listings yet!</h2>");
     }
   }
 
