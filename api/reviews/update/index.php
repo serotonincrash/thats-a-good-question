@@ -77,7 +77,7 @@ if ($checkQuery->execute()) {
 
 
 // Update the review
-$updateQuery = $con->prepare("UPDATE reviews SET body = ?, rating = ? WHERE review_id = ?");
+$updateQuery = $con->prepare("UPDATE reviews SET body = ?, rating = ?, created_date = NOW() WHERE review_id = ?");
 $updateQuery->bind_param("sii", $body, $rating, $review_id);
 if ($updateQuery->execute()) {
     echo "Review updated successfully.";
