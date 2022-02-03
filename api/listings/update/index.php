@@ -58,7 +58,7 @@ if ($itemQuery->execute()) {
     }
 }
 // Send update for main information 
-$updateQuery = $con->prepare('UPDATE items SET name=?, description=?, price=? WHERE item_id = ?');
+$updateQuery = $con->prepare('UPDATE items SET name=?, description=?, price=?, created_date = NOW() WHERE item_id = ?');
 $updateQuery->bind_param('ssis', $item_name, $description, $price, $item_id);
 if ($updateQuery->execute()) {
     echo "Updated successfully.";
