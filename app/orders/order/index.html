@@ -18,8 +18,10 @@
         <h1 id='orderTitle'></h1>
         <h3 class='text-muted' id='vendor'></h3>
         <h3 class='text-muted' id='buyer'></h3>
+        <h5 class='fst-italic' id='boughtOn'></h5>
+        <h5 class='fst-italic' id='fulfilledAt'></h5>
         <h5 class='fst-italic' id='price'></h5>
-
+        
         <div class='my-4' id='orderInfo'>
             <h2>Order Info</h2>
             <form id='metadata'></form>
@@ -59,11 +61,15 @@
             }
         toastr.error(err, "Error");
     }
-
     $("#orderTitle").text(`Order ${order.info.order_id}`);
     $("#vendor").text(`Sold by ${order.item.vendor_name}`);
+    $("#boughtOn").text(`Bought on ${order.info.ordered_at}`);
     $("#buyer").text(`Bought by ${order.info.username}`);
     $("#price").text(`Bought at $${order.item.price}`);
+
+    if (order.info.fulfilled_at) {
+        $("#fulfilledAt").text(`Fulfilled on ${order.info.fulfilled_at}`)
+    }
 
 
 

@@ -21,7 +21,7 @@ if (!isset($_GET['orderID'])) {
     die("No item ID was specified!");
 }
 $order_id = $_GET['orderID'];
-$orderQuery = $con->prepare("SELECT orders.fulfilled, users.username, orders.order_id, orders.item_id FROM orders INNER JOIN users ON orders.buyer_id = users.user_id WHERE order_id = ?");
+$orderQuery = $con->prepare("SELECT orders.fulfilled_at, orders.ordered_at, orders.fulfilled, users.username, orders.order_id, orders.item_id FROM orders INNER JOIN users ON orders.buyer_id = users.user_id WHERE order_id = ?");
 $orderQuery->bind_param("i", $order_id);
 
 if (!$orderQuery->execute()) {

@@ -62,7 +62,7 @@ if ($result = $orderQuery->get_result()) {
 }
 
 // Update the order
-$updateQuery = $con->prepare("UPDATE orders set fulfilled = TRUE WHERE order_id = ?");
+$updateQuery = $con->prepare("UPDATE orders set fulfilled = TRUE, fulfilled_at = NOW() WHERE order_id = ?");
 $updateQuery->bind_param("i", $order_id);
 
 if (!$updateQuery->execute()) {

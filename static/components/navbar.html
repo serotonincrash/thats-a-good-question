@@ -15,13 +15,14 @@
     }
 
 
-    if (role === "Vendor") {
+    if (role === "Vendor" || role === "Admin") {
       $("#inventory").toggle();
-
+      
     } else if (role === "User") {
       $("#inventory").remove();
-    } else if (role === "Admin") {
-      $("#inventory").toggle();
+    } else {
+      $("#inventory").remove();
+      $("#orders").remove();
     }
 
 
