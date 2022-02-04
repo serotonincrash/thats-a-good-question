@@ -11,7 +11,7 @@ You may want to insert an administrator account for the purposes of deployment o
 ## installation (server)
 Run this site on a PHP webserver of your choice. Please use PHP > 8, this application was tested and developed on PHP v8.0.12.
 
-Please install the *apfd* PHP extension for this website to work. For development and debugging purposes, XAMPP with this Please run this application out of the webroot (typically for \*nix based systems this is /var/www/. If you're using an additional web proxy you may want to consult it in order to). You can copy the `/api/`, `/app/`, `/static/` and `index.html` files to your webroot.
+Please install the *apfd* PHP extension for this website to work. For development and debugging purposes, XAMPP with this Please run this application out of the webroot (typically for \*nix based systems this is /var/www/. If you're using an additional web proxy you may want to consult it in order to figure out where the webroot is located and how to set up PHP). You can copy the `/api/`, `/app/`, `/static/` and `index.html` files to your webroot.
 
 **DO NOT COPY ANY OTHER FILES OVER FOR PRODUCTION USAGE! ONLY THESE FOUR DIRECTORIES ARE REQUIRED TO INSTALL THE WEBAPP!**
 
