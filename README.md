@@ -6,7 +6,7 @@ The DBMS used is MySQL. We recommend the usage of MariaDB as an MySQL server alt
 
 The database creation script is enclosed in the `models` directory. Please run `swap_script_vX.sql` where X is the latest script in the directory to create the database.
 
-You may want to insert an administrator account for the purposes of deployment or management. An SQL script has been provided in `models` to insert an admin account `adminacct` with a password of `test@123`.
+You may want to insert an administrator account for the purposes of deployment or management. An SQL script has been provided in `models` to insert an admin account `adminacct` with a password of `test@123`. You may have to select the database first, we recommend running the script after creating your database using something like `phpMyAdmin`.
 
 ## installation (server)
 Run this site on a PHP webserver of your choice. Please use PHP > 8, this application was tested and developed on PHP v8.0.12.
