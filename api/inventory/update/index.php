@@ -31,6 +31,12 @@ if ((strval($_POST['stock']) !== strval(intval($_POST['stock'])))) {
   die("Stock is not a number!");
 }
 
+if ((strval($_POST['partID']) !== strval(intval($_POST['partID'])))) {
+  // stock not defined or not an int
+  http_response_code(400);
+  die("Part ID is not a number!");
+}
+
 $part_id = htmlspecialchars($_POST['partID'], ENT_QUOTES);
 $part_name = htmlspecialchars($_POST['partName'], ENT_QUOTES);
 $sku = htmlspecialchars($_POST['sku'], ENT_QUOTES);
