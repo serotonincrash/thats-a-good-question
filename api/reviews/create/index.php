@@ -27,7 +27,7 @@ if (strval($rating) !== strval(intval($rating))) {
     die("Order ID not an integer!");
 }
 
-if ($rating < 0 || $rating > 5) {
+if ($rating < 1 || $rating > 5) {
     http_response_code(400);
     die("Rating must be between 1 and 5!");
 }

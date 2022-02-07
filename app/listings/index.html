@@ -107,6 +107,7 @@
       }
     })
   } else {
+    // user is user
     $("#createListingButton").hide();
     let res = await fetch("/api/listings/items/");
     let listings = [];

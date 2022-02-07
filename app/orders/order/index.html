@@ -91,7 +91,7 @@
 
     
     if (order.metadata.length === 0) {
-        metadataBlock = "No metadata!"
+        $("#metadata").append("No metadata!");
     } else {
         let canEditMeta = (localStorage.getItem("role") === "Vendor" || localStorage.getItem("role") === "Admin") ? false : true;
         for (let meta of order.metadata) {

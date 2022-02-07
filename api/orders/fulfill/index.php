@@ -50,7 +50,7 @@ if (!$orderQuery->execute()) {
 if ($result = $orderQuery->get_result()) {
     $row = $result->fetch_assoc();
     $user_id = $_SESSION['user_id'];
-    if ($user_id !== $row['buyer_id'] && $user_id !== $row['vendor_id']) {
+    if ($user_id !== $row['buyer_id']) {
         http_response_code(403);
         die("You can't delete this!");
     }
